@@ -1,2 +1,2 @@
 # BlockProM
-An optimization strategy detection tool forblockchains using process mining
+An optimization strategy detection tool for blockchains (Hyperledger Fabric) using process mining.
