@@ -29,21 +29,17 @@ const FabricClient = require('fabric-client');
 
 async function setClient() {
 	 
-	let client =  FabricClient.loadFromConfig('./connectionprofile.yaml')
-	console.log('Debugging 0');
+	let client =  FabricClient.loadFromConfig('./log_extraction/connectionprofile.yaml')
 	await client.initCredentialStores()
 	        .then(async (nothing) => {
-			console.log('Debugging 1');
 			await client.setUserContext({username:'admin', password:'adminpw'})
          			.then(async (admin) => {
-				console.log('Debugging 2');
 				const channel = client.getChannel();
 				let blockchaininfo = await channel.queryInfo();
 				let blockchainheight = blockchaininfo.height;
 				blockchainheight = blockchainheight|0;
-				console.log(blockchainheight);
 				for (let index = 0; index < blockchainheight; index++) {
-    					var fileName = "./data/" + index + ".json";
+    					var fileName = "./log_extraction/data/" + index + ".json";
     					fs.writeFile(
                           				fileName,
 			                                JSON.stringify((await channel.queryBlock(index)), null, 4),
