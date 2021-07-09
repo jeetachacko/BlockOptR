@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fabric-client": "1.4.14"
+  }
+}
+

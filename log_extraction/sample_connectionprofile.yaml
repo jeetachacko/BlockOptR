@@ -1,0 +1,99 @@
+---
+# Source: caliper-config/templates/networkConfig.yaml
+name: Calier test
+version: "1.0"
+mutual-tls: false
+
+caliper:
+  blockchain: fabric
+
+info:
+  Version: 
+  Size: 1 Orgs with 1 Peer
+  Orderer: etcdraft
+  Distribution: Distributed Host
+  StateDB: CouchDB
+
+client:
+  organization: Org1
+  credentialStore:
+    path: /tmp/hfc-kvs/org1
+    cryptoStore:
+      path: /tmp/hfc-cvs/org1
+  clientPrivateKey:
+    path: /home/ubuntu/hyperledgerlab2/fabric/config/templates/crypto-config/peerOrganizations/org1/users/Admin@org1/msp/keystore/priv_sk
+  clientSignedCert:
+    path: /home/ubuntu/hyperledgerlab2/fabric/config/templates/crypto-config/peerOrganizations/org1/users/Admin@org1/msp/signcerts/Admin@org1-cert.pem
+  
+
+organizations:
+  Org1:
+    mspid: Org1MSP
+    peers:
+      - peer0.org1
+    
+    certificateAuthorities:
+      - ca-Org1
+    adminPrivateKey:
+      path: /home/ubuntu/hyperledgerlab2/fabric/config/templates/crypto-config/peerOrganizations/org1/users/Admin@org1/msp/keystore/priv_sk
+    signedCert:
+      path: /home/ubuntu/hyperledgerlab2/fabric/config/templates/crypto-config/peerOrganizations/org1/users/Admin@org1/msp/signcerts/Admin@org1-cert.pem
+  
+
+certificateAuthorities:
+  ca-Org1: 
+    #url: http://ca-Org1:7054
+    url: http://hlf-ca--org1.default.svc.cluster.local:7054
+    #url: https://hlf-ca--org1-5c4f4f7567-cv847:7054
+    #url: http://172.24.36.187:7054
+    httpOptions:
+      verify: false
+    caName: ca-Org1
+    #tlsCACerts:
+    #  path: /home/ubuntu/hyperledgerlab2/fabric/config/templates/crypto-config/peerOrganizations/org1/tlsca/tlsca.org1-cert.pem 
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+  
+
+orderers:
+  orderer0:
+    url: grpc://hlf-orderer--ordorg1--orderer0:7050
+    grpcOptions:
+      ssl-target-name-override: orderer0.orgorderer1
+      # hostnameOverride: orderer0.org1
+      grpc.keepalive_time_ms: 10000
+    
+  
+
+peers:
+  peer0.org1:
+    url: grpc://hlf-peer--org1--peer0:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.org1
+      # hostnameOverride: peer0.org1
+      grpc.keepalive_time_ms: 10000
+    
+  
+
+
+channels:
+  mychannel:
+    created: true
+    orderers:
+      - orderer0
+       
+    peers:
+      peer0.org1:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+    
+    
+
+    contracts:
+      - id: generator
+        version: v1
+        language: golang
+        path: /caliper-chaincode/generator

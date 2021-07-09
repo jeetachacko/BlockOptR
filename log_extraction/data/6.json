@@ -1,0 +1,1022 @@
+{
+    "header": {
+        "number": "6",
+        "previous_hash": "d32134cb8399384a3d492fbba97fd6701848d8f3d206021b1d00d71a794630ab",
+        "data_hash": "6929042ccfd8d13c074870356b6a805c65bd360437a51108fa400a50db4e3f45"
+    },
+    "data": {
+        "data": [
+            {
+                "signature": {
+                    "type": "Buffer",
+                    "data": [
+                        48,
+                        68,
+                        2,
+                        32,
+                        109,
+                        48,
+                        42,
+                        246,
+                        244,
+                        108,
+                        0,
+                        176,
+                        209,
+                        208,
+                        216,
+                        85,
+                        102,
+                        158,
+                        82,
+                        52,
+                        199,
+                        89,
+                        4,
+                        4,
+                        140,
+                        147,
+                        193,
+                        87,
+                        238,
+                        11,
+                        173,
+                        165,
+                        185,
+                        116,
+                        180,
+                        158,
+                        2,
+                        32,
+                        113,
+                        123,
+                        37,
+                        195,
+                        202,
+                        136,
+                        234,
+                        163,
+                        27,
+                        156,
+                        103,
+                        247,
+                        167,
+                        62,
+                        20,
+                        100,
+                        49,
+                        229,
+                        6,
+                        60,
+                        209,
+                        234,
+                        249,
+                        93,
+                        84,
+                        251,
+                        199,
+                        101,
+                        218,
+                        82,
+                        102,
+                        79
+                    ]
+                },
+                "payload": {
+                    "header": {
+                        "channel_header": {
+                            "type": 3,
+                            "version": 0,
+                            "timestamp": "2021-07-09T10:08:49.357Z",
+                            "channel_id": "mychannel",
+                            "tx_id": "adf003cd9e031a13a65e5a58d8cc46fdf11829f58dfdb42c3ecc6e6ad1a6ba62",
+                            "epoch": "0",
+                            "extension": {
+                                "type": "Buffer",
+                                "data": [
+                                    18,
+                                    12,
+                                    18,
+                                    10,
+                                    95,
+                                    108,
+                                    105,
+                                    102,
+                                    101,
+                                    99,
+                                    121,
+                                    99,
+                                    108,
+                                    101
+                                ]
+                            },
+                            "typeString": "ENDORSER_TRANSACTION"
+                        },
+                        "signature_header": {
+                            "creator": {
+                                "Mspid": "Org1MSP",
+                                "IdBytes": "-----BEGIN CERTIFICATE-----\nMIICBTCCAaygAwIBAgIRAKk6DrDaho8SCv9yFxLVpuEwCgYIKoZIzj0EAwIwWzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xDTALBgNVBAoTBG9yZzExEDAOBgNVBAMTB2NhLm9yZzEwHhcNMjEw\nNzA5MTAwMDAwWhcNMzEwNzA3MTAwMDAwWjBfMQswCQYDVQQGEwJVUzETMBEGA1UE\nCBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEOMAwGA1UECxMF\nYWRtaW4xEzARBgNVBAMMCkFkbWluQG9yZzEwWTATBgcqhkjOPQIBBggqhkjOPQMB\nBwNCAASMbPktQf2hOWM/tzA3N9STjEv+vhnq5zcBsp/lYXYBoKBeiKun0SK2KNtB\n2tZvau+/iI4qWCzWttVQ1Hr/dBRGo00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0T\nAQH/BAIwADArBgNVHSMEJDAigCD+JThJuyMhl51Z3+edQbtXH3KSrdMKB5GIHWVh\nX5d1XTAKBggqhkjOPQQDAgNHADBEAiBWAZEHrymET9jzaONBXXVa1jC7NOwIfT7J\nP4iS1GIpcwIgZ4c0SA6B90r7deka1qaRFiJZd5xOAh0ennmWqgE84G8=\n-----END CERTIFICATE-----\n"
+                            },
+                            "nonce": {
+                                "type": "Buffer",
+                                "data": [
+                                    92,
+                                    103,
+                                    35,
+                                    188,
+                                    166,
+                                    111,
+                                    243,
+                                    19,
+                                    106,
+                                    140,
+                                    252,
+                                    240,
+                                    179,
+                                    127,
+                                    143,
+                                    137,
+                                    161,
+                                    136,
+                                    23,
+                                    56,
+                                    158,
+                                    51,
+                                    73,
+                                    105
+                                ]
+                            }
+                        }
+                    },
+                    "data": {
+                        "actions": [
+                            {
+                                "header": {
+                                    "creator": {
+                                        "Mspid": "Org1MSP",
+                                        "IdBytes": "-----BEGIN CERTIFICATE-----\nMIICBTCCAaygAwIBAgIRAKk6DrDaho8SCv9yFxLVpuEwCgYIKoZIzj0EAwIwWzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xDTALBgNVBAoTBG9yZzExEDAOBgNVBAMTB2NhLm9yZzEwHhcNMjEw\nNzA5MTAwMDAwWhcNMzEwNzA3MTAwMDAwWjBfMQswCQYDVQQGEwJVUzETMBEGA1UE\nCBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEOMAwGA1UECxMF\nYWRtaW4xEzARBgNVBAMMCkFkbWluQG9yZzEwWTATBgcqhkjOPQIBBggqhkjOPQMB\nBwNCAASMbPktQf2hOWM/tzA3N9STjEv+vhnq5zcBsp/lYXYBoKBeiKun0SK2KNtB\n2tZvau+/iI4qWCzWttVQ1Hr/dBRGo00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0T\nAQH/BAIwADArBgNVHSMEJDAigCD+JThJuyMhl51Z3+edQbtXH3KSrdMKB5GIHWVh\nX5d1XTAKBggqhkjOPQQDAgNHADBEAiBWAZEHrymET9jzaONBXXVa1jC7NOwIfT7J\nP4iS1GIpcwIgZ4c0SA6B90r7deka1qaRFiJZd5xOAh0ennmWqgE84G8=\n-----END CERTIFICATE-----\n"
+                                    },
+                                    "nonce": {
+                                        "type": "Buffer",
+                                        "data": [
+                                            92,
+                                            103,
+                                            35,
+                                            188,
+                                            166,
+                                            111,
+                                            243,
+                                            19,
+                                            106,
+                                            140,
+                                            252,
+                                            240,
+                                            179,
+                                            127,
+                                            143,
+                                            137,
+                                            161,
+                                            136,
+                                            23,
+                                            56,
+                                            158,
+                                            51,
+                                            73,
+                                            105
+                                        ]
+                                    }
+                                },
+                                "payload": {
+                                    "chaincode_proposal_payload": {
+                                        "input": {
+                                            "chaincode_spec": {
+                                                "type": 0,
+                                                "typeString": "UNDEFINED",
+                                                "input": {
+                                                    "args": [
+                                                        {
+                                                            "type": "Buffer",
+                                                            "data": [
+                                                                67,
+                                                                111,
+                                                                109,
+                                                                109,
+                                                                105,
+                                                                116,
+                                                                67,
+                                                                104,
+                                                                97,
+                                                                105,
+                                                                110,
+                                                                99,
+                                                                111,
+                                                                100,
+                                                                101,
+                                                                68,
+                                                                101,
+                                                                102,
+                                                                105,
+                                                                110,
+                                                                105,
+                                                                116,
+                                                                105,
+                                                                111,
+                                                                110
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "Buffer",
+                                                            "data": [
+                                                                8,
+                                                                1,
+                                                                18,
+                                                                3,
+                                                                100,
+                                                                114,
+                                                                109,
+                                                                26,
+                                                                2,
+                                                                118,
+                                                                49
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "decorations": {}
+                                                },
+                                                "chaincode_id": {
+                                                    "path": "",
+                                                    "name": "_lifecycle",
+                                                    "version": ""
+                                                },
+                                                "timeout": 0
+                                            }
+                                        }
+                                    },
+                                    "action": {
+                                        "proposal_response_payload": {
+                                            "proposal_hash": "446ac5965bd88ce63571c8c3c2576a9c58c93bdcfc80883d50a4ed8ed32fee43",
+                                            "extension": {
+                                                "results": {
+                                                    "data_model": 0,
+                                                    "ns_rwset": [
+                                                        {
+                                                            "namespace": "_lifecycle",
+                                                            "rwset": {
+                                                                "reads": [
+                                                                    {
+                                                                        "key": "namespaces/fields/drm/Sequence",
+                                                                        "version": null
+                                                                    },
+                                                                    {
+                                                                        "key": "namespaces/metadata/drm",
+                                                                        "version": null
+                                                                    }
+                                                                ],
+                                                                "range_queries_info": [],
+                                                                "writes": [
+                                                                    {
+                                                                        "key": "namespaces/fields/drm/Collections",
+                                                                        "is_delete": false,
+                                                                        "value": "\u0012\u0000"
+                                                                    },
+                                                                    {
+                                                                        "key": "namespaces/fields/drm/EndorsementInfo",
+                                                                        "is_delete": false,
+                                                                        "value": "\u0012\n\n\u0002v1\u001a\u0004escc"
+                                                                    },
+                                                                    {
+                                                                        "key": "namespaces/fields/drm/Sequence",
+                                                                        "is_delete": false,
+                                                                        "value": "\b\u0001"
+                                                                    },
+                                                                    {
+                                                                        "key": "namespaces/fields/drm/ValidationInfo",
+                                                                        "is_delete": false,
+                                                                        "value": "\u0012*\n\u0004vscc\u0012\"\u0012 /Channel/Application/Endorsement"
+                                                                    },
+                                                                    {
+                                                                        "key": "namespaces/metadata/drm",
+                                                                        "is_delete": false,
+                                                                        "value": "\n\u0013ChaincodeDefinition\u0012\bSequence\u0012\u000fEndorsementInfo\u0012\u000eValidationInfo\u0012\u000bCollections"
+                                                                    }
+                                                                ],
+                                                                "metadata_writes": []
+                                                            },
+                                                            "collection_hashed_rwset": [
+                                                                {
+                                                                    "collection_name": "_implicit_org_Org1MSP",
+                                                                    "hashed_rwset": {
+                                                                        "hashed_reads": [
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        162,
+                                                                                        110,
+                                                                                        21,
+                                                                                        184,
+                                                                                        34,
+                                                                                        247,
+                                                                                        220,
+                                                                                        113,
+                                                                                        84,
+                                                                                        179,
+                                                                                        48,
+                                                                                        11,
+                                                                                        84,
+                                                                                        181,
+                                                                                        132,
+                                                                                        219,
+                                                                                        31,
+                                                                                        88,
+                                                                                        162,
+                                                                                        212,
+                                                                                        64,
+                                                                                        183,
+                                                                                        109,
+                                                                                        4,
+                                                                                        154,
+                                                                                        137,
+                                                                                        238,
+                                                                                        233,
+                                                                                        7,
+                                                                                        139,
+                                                                                        100,
+                                                                                        65
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "4",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        152,
+                                                                                        204,
+                                                                                        155,
+                                                                                        225,
+                                                                                        241,
+                                                                                        87,
+                                                                                        105,
+                                                                                        82,
+                                                                                        115,
+                                                                                        230,
+                                                                                        26,
+                                                                                        95,
+                                                                                        163,
+                                                                                        69,
+                                                                                        62,
+                                                                                        158,
+                                                                                        183,
+                                                                                        56,
+                                                                                        48,
+                                                                                        27,
+                                                                                        215,
+                                                                                        81,
+                                                                                        81,
+                                                                                        124,
+                                                                                        84,
+                                                                                        195,
+                                                                                        28,
+                                                                                        151,
+                                                                                        253,
+                                                                                        150,
+                                                                                        0,
+                                                                                        62
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "4",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        223,
+                                                                                        160,
+                                                                                        119,
+                                                                                        244,
+                                                                                        157,
+                                                                                        21,
+                                                                                        187,
+                                                                                        43,
+                                                                                        23,
+                                                                                        136,
+                                                                                        49,
+                                                                                        39,
+                                                                                        253,
+                                                                                        241,
+                                                                                        151,
+                                                                                        66,
+                                                                                        46,
+                                                                                        37,
+                                                                                        84,
+                                                                                        95,
+                                                                                        232,
+                                                                                        227,
+                                                                                        152,
+                                                                                        44,
+                                                                                        5,
+                                                                                        141,
+                                                                                        138,
+                                                                                        150,
+                                                                                        126,
+                                                                                        154,
+                                                                                        242,
+                                                                                        3
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "4",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        149,
+                                                                                        126,
+                                                                                        72,
+                                                                                        212,
+                                                                                        44,
+                                                                                        232,
+                                                                                        227,
+                                                                                        201,
+                                                                                        11,
+                                                                                        174,
+                                                                                        36,
+                                                                                        105,
+                                                                                        244,
+                                                                                        66,
+                                                                                        151,
+                                                                                        16,
+                                                                                        60,
+                                                                                        241,
+                                                                                        133,
+                                                                                        86,
+                                                                                        223,
+                                                                                        138,
+                                                                                        193,
+                                                                                        122,
+                                                                                        165,
+                                                                                        208,
+                                                                                        111,
+                                                                                        147,
+                                                                                        157,
+                                                                                        247,
+                                                                                        109,
+                                                                                        94
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "4",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "hashed_writes": [],
+                                                                        "metadata_writes": []
+                                                                    },
+                                                                    "pvt_rwset_hash": {
+                                                                        "type": "Buffer",
+                                                                        "data": []
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "collection_name": "_implicit_org_Org2MSP",
+                                                                    "hashed_rwset": {
+                                                                        "hashed_reads": [
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        162,
+                                                                                        110,
+                                                                                        21,
+                                                                                        184,
+                                                                                        34,
+                                                                                        247,
+                                                                                        220,
+                                                                                        113,
+                                                                                        84,
+                                                                                        179,
+                                                                                        48,
+                                                                                        11,
+                                                                                        84,
+                                                                                        181,
+                                                                                        132,
+                                                                                        219,
+                                                                                        31,
+                                                                                        88,
+                                                                                        162,
+                                                                                        212,
+                                                                                        64,
+                                                                                        183,
+                                                                                        109,
+                                                                                        4,
+                                                                                        154,
+                                                                                        137,
+                                                                                        238,
+                                                                                        233,
+                                                                                        7,
+                                                                                        139,
+                                                                                        100,
+                                                                                        65
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "3",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        152,
+                                                                                        204,
+                                                                                        155,
+                                                                                        225,
+                                                                                        241,
+                                                                                        87,
+                                                                                        105,
+                                                                                        82,
+                                                                                        115,
+                                                                                        230,
+                                                                                        26,
+                                                                                        95,
+                                                                                        163,
+                                                                                        69,
+                                                                                        62,
+                                                                                        158,
+                                                                                        183,
+                                                                                        56,
+                                                                                        48,
+                                                                                        27,
+                                                                                        215,
+                                                                                        81,
+                                                                                        81,
+                                                                                        124,
+                                                                                        84,
+                                                                                        195,
+                                                                                        28,
+                                                                                        151,
+                                                                                        253,
+                                                                                        150,
+                                                                                        0,
+                                                                                        62
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "3",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        223,
+                                                                                        160,
+                                                                                        119,
+                                                                                        244,
+                                                                                        157,
+                                                                                        21,
+                                                                                        187,
+                                                                                        43,
+                                                                                        23,
+                                                                                        136,
+                                                                                        49,
+                                                                                        39,
+                                                                                        253,
+                                                                                        241,
+                                                                                        151,
+                                                                                        66,
+                                                                                        46,
+                                                                                        37,
+                                                                                        84,
+                                                                                        95,
+                                                                                        232,
+                                                                                        227,
+                                                                                        152,
+                                                                                        44,
+                                                                                        5,
+                                                                                        141,
+                                                                                        138,
+                                                                                        150,
+                                                                                        126,
+                                                                                        154,
+                                                                                        242,
+                                                                                        3
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "3",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key_hash": {
+                                                                                    "type": "Buffer",
+                                                                                    "data": [
+                                                                                        149,
+                                                                                        126,
+                                                                                        72,
+                                                                                        212,
+                                                                                        44,
+                                                                                        232,
+                                                                                        227,
+                                                                                        201,
+                                                                                        11,
+                                                                                        174,
+                                                                                        36,
+                                                                                        105,
+                                                                                        244,
+                                                                                        66,
+                                                                                        151,
+                                                                                        16,
+                                                                                        60,
+                                                                                        241,
+                                                                                        133,
+                                                                                        86,
+                                                                                        223,
+                                                                                        138,
+                                                                                        193,
+                                                                                        122,
+                                                                                        165,
+                                                                                        208,
+                                                                                        111,
+                                                                                        147,
+                                                                                        157,
+                                                                                        247,
+                                                                                        109,
+                                                                                        94
+                                                                                    ]
+                                                                                },
+                                                                                "version": {
+                                                                                    "block_num": "3",
+                                                                                    "tx_num": "0"
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "hashed_writes": [],
+                                                                        "metadata_writes": []
+                                                                    },
+                                                                    "pvt_rwset_hash": {
+                                                                        "type": "Buffer",
+                                                                        "data": []
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "namespace": "lscc",
+                                                            "rwset": {
+                                                                "reads": [
+                                                                    {
+                                                                        "key": "drm",
+                                                                        "version": null
+                                                                    }
+                                                                ],
+                                                                "range_queries_info": [],
+                                                                "writes": [],
+                                                                "metadata_writes": []
+                                                            },
+                                                            "collection_hashed_rwset": []
+                                                        }
+                                                    ]
+                                                },
+                                                "events": {
+                                                    "chaincode_id": "",
+                                                    "tx_id": "",
+                                                    "event_name": "",
+                                                    "payload": {
+                                                        "type": "Buffer",
+                                                        "data": []
+                                                    }
+                                                },
+                                                "response": {
+                                                    "status": 200,
+                                                    "message": "",
+                                                    "payload": ""
+                                                },
+                                                "chaincode_id": {
+                                                    "path": "",
+                                                    "name": "_lifecycle",
+                                                    "version": "syscc"
+                                                }
+                                            }
+                                        },
+                                        "endorsements": [
+                                            {
+                                                "endorser": {
+                                                    "Mspid": "Org1MSP",
+                                                    "IdBytes": "-----BEGIN CERTIFICATE-----\nMIICBDCCAaugAwIBAgIRAMN66dGJAFeKfgARVkiwt4YwCgYIKoZIzj0EAwIwWzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xDTALBgNVBAoTBG9yZzExEDAOBgNVBAMTB2NhLm9yZzEwHhcNMjEw\nNzA5MTAwMDAwWhcNMzEwNzA3MTAwMDAwWjBeMQswCQYDVQQGEwJVUzETMBEGA1UE\nCBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzENMAsGA1UECxME\ncGVlcjETMBEGA1UEAxMKcGVlcjAub3JnMTBZMBMGByqGSM49AgEGCCqGSM49AwEH\nA0IABDveyhoUcfbJuKd1w8mDZ94Q43yMceTmTny6gz3ikvf1IyC79E+T8nNaUebN\nqe8qfoYhADCYHPnwAt1HtdXmjjmjTTBLMA4GA1UdDwEB/wQEAwIHgDAMBgNVHRMB\nAf8EAjAAMCsGA1UdIwQkMCKAIP4lOEm7IyGXnVnf551Bu1cfcpKt0woHkYgdZWFf\nl3VdMAoGCCqGSM49BAMCA0cAMEQCICZVUS/nkB4vPR+cy65WALvPYvYY4hJ8CByE\nViZzii2aAiB5CbtbzLuQ3QKYjMWfUd7mu3zg4EYRFoE+ObP4rS4bCw==\n-----END CERTIFICATE-----\n"
+                                                },
+                                                "signature": {
+                                                    "type": "Buffer",
+                                                    "data": [
+                                                        48,
+                                                        69,
+                                                        2,
+                                                        33,
+                                                        0,
+                                                        229,
+                                                        237,
+                                                        55,
+                                                        147,
+                                                        247,
+                                                        75,
+                                                        102,
+                                                        52,
+                                                        68,
+                                                        144,
+                                                        223,
+                                                        116,
+                                                        238,
+                                                        229,
+                                                        149,
+                                                        185,
+                                                        125,
+                                                        129,
+                                                        82,
+                                                        201,
+                                                        45,
+                                                        192,
+                                                        104,
+                                                        245,
+                                                        117,
+                                                        227,
+                                                        133,
+                                                        12,
+                                                        250,
+                                                        61,
+                                                        5,
+                                                        43,
+                                                        2,
+                                                        32,
+                                                        59,
+                                                        47,
+                                                        96,
+                                                        88,
+                                                        28,
+                                                        215,
+                                                        230,
+                                                        132,
+                                                        146,
+                                                        86,
+                                                        138,
+                                                        249,
+                                                        1,
+                                                        141,
+                                                        132,
+                                                        180,
+                                                        187,
+                                                        219,
+                                                        33,
+                                                        191,
+                                                        222,
+                                                        20,
+                                                        121,
+                                                        81,
+                                                        185,
+                                                        157,
+                                                        206,
+                                                        220,
+                                                        234,
+                                                        152,
+                                                        206,
+                                                        71
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "endorser": {
+                                                    "Mspid": "Org2MSP",
+                                                    "IdBytes": "-----BEGIN CERTIFICATE-----\nMIICBTCCAaugAwIBAgIRAP0mNgoLB/AsriBNe2haJaAwCgYIKoZIzj0EAwIwWzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xDTALBgNVBAoTBG9yZzIxEDAOBgNVBAMTB2NhLm9yZzIwHhcNMjEw\nNzA5MTAwMDAwWhcNMzEwNzA3MTAwMDAwWjBeMQswCQYDVQQGEwJVUzETMBEGA1UE\nCBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzENMAsGA1UECxME\ncGVlcjETMBEGA1UEAxMKcGVlcjAub3JnMjBZMBMGByqGSM49AgEGCCqGSM49AwEH\nA0IABPB/aIwm/niA7Ibfg5BpEdyHddMq4RKVD8YlRg9bCiCx3fK4F+K85eNFLBOi\nTHgg3/C6NgLMi5mEcwiEGKv1mCujTTBLMA4GA1UdDwEB/wQEAwIHgDAMBgNVHRMB\nAf8EAjAAMCsGA1UdIwQkMCKAIHKOO2oCbzdx/pdS68bK3rfuuM88qQqrl/iDi89r\n3ihXMAoGCCqGSM49BAMCA0gAMEUCIQDjDmhm81ojWNfheh7KjOtxAK4tYZQeeFnP\nNeTd5ceXZgIgbMQ9wh+lD1C2CcFdlQQLsDCKbHiEiun3xu7q3w33vxE=\n-----END CERTIFICATE-----\n"
+                                                },
+                                                "signature": {
+                                                    "type": "Buffer",
+                                                    "data": [
+                                                        48,
+                                                        69,
+                                                        2,
+                                                        33,
+                                                        0,
+                                                        223,
+                                                        179,
+                                                        123,
+                                                        187,
+                                                        26,
+                                                        242,
+                                                        24,
+                                                        97,
+                                                        101,
+                                                        208,
+                                                        72,
+                                                        82,
+                                                        94,
+                                                        160,
+                                                        152,
+                                                        149,
+                                                        120,
+                                                        228,
+                                                        218,
+                                                        167,
+                                                        51,
+                                                        212,
+                                                        133,
+                                                        112,
+                                                        230,
+                                                        202,
+                                                        159,
+                                                        158,
+                                                        147,
+                                                        48,
+                                                        102,
+                                                        65,
+                                                        2,
+                                                        32,
+                                                        74,
+                                                        178,
+                                                        168,
+                                                        176,
+                                                        100,
+                                                        156,
+                                                        205,
+                                                        115,
+                                                        246,
+                                                        209,
+                                                        59,
+                                                        67,
+                                                        79,
+                                                        59,
+                                                        199,
+                                                        196,
+                                                        202,
+                                                        79,
+                                                        214,
+                                                        169,
+                                                        165,
+                                                        203,
+                                                        124,
+                                                        224,
+                                                        153,
+                                                        105,
+                                                        164,
+                                                        31,
+                                                        204,
+                                                        19,
+                                                        92,
+                                                        146
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "metadata": {
+        "metadata": [
+            {
+                "value": "\n\u0002\b\u0002\u0012\n\n\b\n\u0002\u0001\u0002\u0010\u0003\u0018\t",
+                "signatures": [
+                    {
+                        "signature_header": {
+                            "creator": {
+                                "Mspid": "OrdOrg1MSP",
+                                "IdBytes": "-----BEGIN CERTIFICATE-----\nMIICHzCCAcWgAwIBAgIQNdCgJ/SwCX5s9OCdnlFn4TAKBggqhkjOPQQDAjBpMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEUMBIGA1UEChMLb3Jnb3JkZXJlcjExFzAVBgNVBAMTDmNhLm9yZ29y\nZGVyZXIxMB4XDTIxMDcwOTEwMDAwMFoXDTMxMDcwNzEwMDAwMFowazELMAkGA1UE\nBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lz\nY28xEDAOBgNVBAsTB29yZGVyZXIxHTAbBgNVBAMTFG9yZGVyZXIwLm9yZ29yZGVy\nZXIxMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmFkNbyOxGpUVye4Sb/APlok4\nULTzV7Q/7bC+EzM5vfCxnqcLjJoZKOt8Cl20SXu+Bq977NAeQ4CJ2IVMf5wU4qNN\nMEswDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAwKwYDVR0jBCQwIoAghFbl\ndGaJv3wUBdqnfMT51fnbSm6Oxl8ttVcuR6yPxicwCgYIKoZIzj0EAwIDSAAwRQIh\nANa0lQJ4MSGOql2pLcHIftuOljWDqKwijaOSTKHdIRxsAiBQEOaiDP7F/lKGDAMW\ng3fprEKPnzMgdBgOTrpvRxYLgg==\n-----END CERTIFICATE-----\n"
+                            },
+                            "nonce": {
+                                "type": "Buffer",
+                                "data": [
+                                    72,
+                                    141,
+                                    46,
+                                    188,
+                                    103,
+                                    146,
+                                    130,
+                                    123,
+                                    171,
+                                    125,
+                                    5,
+                                    255,
+                                    95,
+                                    92,
+                                    156,
+                                    45,
+                                    10,
+                                    44,
+                                    141,
+                                    130,
+                                    251,
+                                    189,
+                                    101,
+                                    152
+                                ]
+                            }
+                        },
+                        "signature": {
+                            "type": "Buffer",
+                            "data": [
+                                48,
+                                69,
+                                2,
+                                33,
+                                0,
+                                159,
+                                252,
+                                214,
+                                14,
+                                179,
+                                198,
+                                45,
+                                162,
+                                156,
+                                14,
+                                97,
+                                213,
+                                90,
+                                44,
+                                221,
+                                173,
+                                51,
+                                72,
+                                4,
+                                55,
+                                205,
+                                55,
+                                92,
+                                64,
+                                24,
+                                203,
+                                203,
+                                120,
+                                245,
+                                174,
+                                217,
+                                235,
+                                2,
+                                32,
+                                83,
+                                12,
+                                60,
+                                52,
+                                168,
+                                75,
+                                179,
+                                152,
+                                123,
+                                142,
+                                217,
+                                66,
+                                19,
+                                154,
+                                128,
+                                176,
+                                219,
+                                149,
+                                234,
+                                143,
+                                12,
+                                137,
+                                79,
+                                36,
+                                236,
+                                85,
+                                235,
+                                226,
+                                73,
+                                99,
+                                178,
+                                184
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "value": {
+                    "index": "2"
+                },
+                "signatures": []
+            },
+            [
+                0
+            ]
+        ]
+    }
+}
