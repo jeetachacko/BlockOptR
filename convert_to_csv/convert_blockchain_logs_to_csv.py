@@ -14,7 +14,7 @@ import sys
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
 #fields contains the keys in json file which will be extracted
-fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "case_id"]
+fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "case_id"]
 
 home_dir = "/home/ubuntu/BlockProM/log_store/"
 log_dir = ' '.join(sys.argv[1:])
@@ -30,10 +30,10 @@ file_dir=home_dir + log_dir
 def scan_files(path):
     
     case_id=1
-    
+
     with open(csv_path,"w") as f:
        
-        f.write("timestamp;tx_id;creatorid;activity_name;function_args;endorsers_id;tx_status;readkeys;writekeys;rangekeys;case_id\n")
+        f.write("timestamp;tx_id;creatorid;activity_name;function_args;endorsers_id;tx_status;readkeys;writekeys;rangekeys;transaction_type;case_id\n")
         f.close()
     dir_dict={}
     
@@ -63,7 +63,6 @@ def scan_files(path):
             
             json_data = json.load(json_file)
             
-
 
             #TIMESTAMP
             field_values=[]
@@ -192,7 +191,6 @@ def scan_files(path):
                         #key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['reads'][y]['key']   
                         key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['reads'][y]['key']   
                         readkeys = readkeys + ' ' + key
-		    
                     field_values.append(readkeys)
             except Exception:
                 field_values.append("NULL")
@@ -210,11 +208,11 @@ def scan_files(path):
                     writekeys=''
                     #numwrites = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['writes'])
                     numwrites = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['writes'])
+
                     for y in range(numwrites):
                         #key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['writes'][y]['key']
                         key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['writes'][y]['key']
                         writekeys = writekeys + ' ' + key
-
                     field_values.append(writekeys)
             except Exception:
                 field_values.append("NULL")
@@ -248,15 +246,19 @@ def scan_files(path):
 
             file_values.append(field_values)
 
+            #TransactionType
+            field_values=[]
+            field_values.append("")
+            file_values.append(field_values)
 
 
             json_file.close()
 
         case_id=csv_write(fields,file_values,csv_path,case_id)
-                
-    return_value=caseid_write(csv_path)
-    return_value2=key_based_caseid(csv_path) 
-    return_value3=activity_based_caseid(csv_path)
+    new_csv_path=get_transaction_status(csv_path)
+    organizelog=organize_log(new_csv_path)
+
+
 
 def csv_write(fields, data,path,case_id):
     
@@ -291,148 +293,67 @@ def csv_write(fields, data,path,case_id):
         return case_id
     
 
-
-def is_phrase_in(phrase, text):
-    return re.search(r"\b{}\b".format(phrase), text, re.IGNORECASE) is not None
-
-def activity_based_caseid(path):
+def get_transaction_status(path):
+    rk = 1
+    wk = 1
+    rrk = 1
     file = open(path)
     reader = csv.reader((x.replace('\0', '') for x in file), delimiter=';')
     new_lines = list(reader)
     for i in range(len(new_lines)):
-        new_lines[i][10]=0
+        new_lines[i][11]=0
 
-    activity_name=[]
     for i in range(len(new_lines)):
-        if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != 'initLedger' and new_lines[i][3] not in activity_name:
-           activity_name.append(new_lines[i][3])
+        if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != 'initLedger':
+            if new_lines[i][7] == 'NULL' or new_lines[i][7] == '' or new_lines[i][7] is None or new_lines[i][7] == "":
+                rk=0
+            if new_lines[i][8] == 'NULL' or new_lines[i][8] == '' or new_lines[i][8] is None or new_lines[i][8] == "":
+                wk=0
+            if new_lines[i][9] == 'NULL' or new_lines[i][9] == '' or new_lines[i][9] is None or new_lines[i][9] == "":
+                rrk=0
+            #print(rk, wk, rrk)
+            if (rk == 0 and rrk == 0 and wk == 1):
+                new_lines[i][10] = "WT"
+            elif (rk == 1 and rrk == 0 and wk == 0):
+                new_lines[i][10] = "RT"
+            elif ((rk == 1 or rrk == 1) and wk == 1):
+                new_lines[i][10] = "UT"
+            elif (rk == 0 and rrk ==1 and wk == 0):
+                new_lines[i][10] = "RRT"
+            elif ((rk == 1 or rrk == 1) and wk == 0):
+                new_lines[i][10] = "RT*"
+            rk = 1
+            rrk = 1
+            wk = 1
 
-    for k in range(len(activity_name)):
-        case_id=1
-        for i in range(len(new_lines)):
-            if i != 0 and new_lines[i][3]==activity_name[k]:
-               new_lines[i][10]=case_id
-               case_id+=1
 
-    writer = csv.writer(open('%s/activity_based_caseid_blockchainlog.csv' % full_path, 'w'))
+    writer = csv.writer(open('%s/main_blockchainlog.csv' % full_path, 'w'))
+    writer.writerows(new_lines)
+    new_csv_path = full_path + '/main_blockchainlog.csv'
+    return new_csv_path
+
+def organize_log(path):
+    file = open(path)
+    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
+    new_lines = list(reader)
+    setline = 0
+    length = 0
+    for i in range(len(new_lines)):
+        if new_lines[i][3] == 'initLedger':
+            setline = 1
+        if setline == 1 and new_lines[i][3] != 'initLedger':
+            length = i
+            break
+    if length > 0:
+        for i in range(1, length):
+            del new_lines[1]
+    writer = csv.writer(open('%s/clean_blockchainlog.csv' % full_path, 'w'))
     writer.writerows(new_lines)
 
 
-def key_based_caseid(path):
-    unique_keys=[]
-    file = open(path)
-    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=';')
-    lines = list(reader)
-    for i in range(len(lines)):
-        lines[i][10]=0
-    for i in range(len(lines)):
-        readkey = []
-        writekey = []
-        rangekey = []
-        if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != 'initLedger':
-           readkey += (lines[i][7].strip()).split()
-           for k in readkey:
-             if k not in unique_keys and k != 'NULL' and k != '':
-                unique_keys.append(k)
-           writekey += (lines[i][8].strip()).split()
-           for k in writekey:
-             if k not in unique_keys and k != 'NULL' and k != '':
-                unique_keys.append(k)
-           rangekey += (lines[i][9].strip()).split()
-           for k in rangekey:
-             if k not in unique_keys and k != 'NULL' and k != '':
-                unique_keys.append(k)
+def is_phrase_in(phrase, text):
+    return re.search(r"\b{}\b".format(phrase), text, re.IGNORECASE) is not None
 
-    key_dependencies=[]
-    key_dependencies.append(['keys','number_of_dependencies'])
-    #print(unique_keys)
-    for key in unique_keys:
-        numdependencies=0
-        new_lines=[]
-        new_lines.append(["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "case_id"])
-
-        for i in range(len(lines)):
-            if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != 'initLedger':
-               if (key != '') and (is_phrase_in(key, lines[i][7].strip()) or is_phrase_in(key, lines[i][8].strip()) or is_phrase_in(key, lines[i][9].strip())):
-                   new_lines.append(lines[i])
-                   numdependencies+=1
-        key_dependencies.append([key,numdependencies]) 
-
-        activity_name=[]
-        for i in range(len(new_lines)):
-            if new_lines[i][3] not in activity_name:
-               activity_name.append(new_lines[i][3])
-        for k in range(len(activity_name)):
-            case_id=1
-            for i in range(len(new_lines)):
-                if new_lines[i][3]==activity_name[k]:
-                   new_lines[i][10]=case_id 
-                   case_id+=1
-        writer = csv.writer(open('%s/%s_blockchainlog.csv' % (full_path, key), 'w'))
-        writer.writerows(new_lines)
-    
-    writer = csv.writer(open('%s/key_dependencies.csv' % full_path, 'w'))
-    writer.writerows(key_dependencies)
-
-def caseid_write(path):
-    case_id=0
-    line_count=0
-    write_keys=[]
-    file = open(path)
-    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=';')
-    for row in reader:
-        if line_count == 0:
-           checking=0
-        elif row[3] != 'NULL' and row[3] != 'deploy' and row[3] != 'initLedger' and row[8] != '' and row[8] != 'NULL':
-           write_keys.append(row[8])
-        line_count+=1
-
-    file.seek(0)
-    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=';')
-    lines = list(reader)
-    for i in range(len(lines)):
-        lines[i][10]=0
-
-    for key in write_keys:
-        case_id+=1
-        for i in range(len(lines)):
-            if lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != 'initLedger':
-               if (key != '') and (is_phrase_in(key.strip(), lines[i][7].strip()) or is_phrase_in(key.strip(), lines[i][8].strip()) or is_phrase_in(key.strip(), lines[i][9].strip())) and (lines[i][10] == 0):
-               #if (key != '') and (key.strip() in lines[i][7].strip() or key.strip() in lines[i][8].strip() or key.strip() in lines[i][9].strip()) and (lines[i][10] == 0):
-               #if (key != '') and (key in lines[i][7].strip() or key in lines[i][8].strip() or key in lines[i][9].strip()) and (lines[i][10] == 0):
-                  #print(key)
-                  #print(lines[i])
-                  lines[i][10]=case_id
-                  #print(lines[i])
-
-
-    new_lines=[]
-    increment=0.00001
-    for j in range(case_id):
-        activity_name=[]
-        for i in range(len(lines)):
-            if (lines[i][10]==j) and (lines[i][3] not in activity_name):
-                  activity_name.append(lines[i][3])
-        for k in range(len(activity_name)):
-            for l in range(len(lines)):
-                if lines[l][10]==j and lines[l][3]==activity_name[k]:
-                   one_row = lines[l]
-                   one_row.append(lines[l][10]+increment)
-                   #lines[l][11]=lines[l][10]+increment
-                   increment+=0.00001
-            increment=0.00001
-        for l in range(len(lines)):
-                if lines[l][10]==j:
-                   new_lines.append(lines[l])
-        #writer = csv.writer(open('/home/ubuntu/HyperLedgerLab/csv/%s_caseidcsvblockchain.csv' % j, 'w'))
-        #writer.writerows(new_lines)
-        #new_lines=[]
-
-    writer = csv.writer(open('%s/caseidcsvblockchain.csv' % full_path, 'w'))
-    writer.writerows(lines)
-    a=10 
-    return a 
- 
 def json_extract(obj, key):
     """Recursively fetch values from nested JSON."""
     arr = []

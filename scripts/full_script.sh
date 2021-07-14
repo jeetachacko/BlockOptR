@@ -14,9 +14,13 @@ kubectl cp -c peer hlf-peer--org1--peer0-0:log_extraction/data log_extraction/da
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf log_extraction"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf node_modules"
 logdir=$(date +%Y%m%d_%H%M%S)
-mkdir -p log_store/$logdir && cp log_extraction/data/* log_store/$logdir
+mkdir -p log_store/$logdir
+#mkdir log_store/$logdir/json
+cp log_extraction/data/* log_store/$logdir
 mkdir log_store/$logdir/csv
+mkdir log_store/$logdir/csv/keybased
 python3 convert_to_csv/convert_blockchain_logs_to_csv.py $logdir
+python3 caseid_generation/caseid_generation.py $logdir
 rm log_extraction/data/*
 
 set -ex
