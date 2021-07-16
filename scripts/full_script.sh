@@ -21,6 +21,7 @@ mkdir log_store/$logdir/csv
 mkdir log_store/$logdir/csv/keybased
 python3 convert_to_csv/convert_blockchain_logs_to_csv.py $logdir
 python3 caseid_generation/caseid_generation.py $logdir
+python3 metrics_evaluation/metrics_evaluation.py $logdir > log_store/$logdir/optimizationrecommendations.txt
 rm log_extraction/data/*
 
 set -ex

@@ -11,6 +11,7 @@ import csv
 import sys
 from datetime import datetime, date
 import arrow
+from collections import Counter
 #the extract function is used from: 
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
@@ -37,6 +38,7 @@ new_lines = list(reader)
 n=0
 TM=0
 
+optcount = 0
 
 def is_phrase_in(phrase, text):
     return re.search(r"\b{}\b".format(phrase), text, re.IGNORECASE) is not None
@@ -143,7 +145,7 @@ def endorser_sig():
 
 def key_sig():
     writer = csv.writer(open('%s/key_significance.csv' % full_path, 'w'))
-    writer.writerow(['Keys','Ksig'])
+    writer.writerow(['Keys','Ksig','activity_names'])
     unique_keys=[]
     for i in range(len(new_lines)):
         readkey = []
@@ -166,12 +168,14 @@ def key_sig():
     key_dependencies=[]
     for key in unique_keys:
         numdependencies=0
+        activity_names=''
 
         for i in range(len(new_lines)):
             if i != 0 :
                if (key != '') and (is_phrase_in(key, new_lines[i][7].strip()) or is_phrase_in(key, new_lines[i][8].strip()) or is_phrase_in(key, new_lines[i][9].strip())):
                    numdependencies+=1
-        key_dependencies.append([key,numdependencies]) 
+                   activity_names = activity_names + ' ' + new_lines[i][3]
+        key_dependencies.append([key,numdependencies,activity_names]) 
     key_dependencies_sort = sorted(key_dependencies,key=lambda l:l[1], reverse=True)
     writer.writerows(key_dependencies_sort)
 
@@ -202,6 +206,7 @@ def datavalue_correlation():
 
 def client_dist():
     global n
+    global optcount
     cpath = full_path + '/originator_significance.csv'
     cfile = open(cpath)
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
@@ -216,8 +221,9 @@ def client_dist():
         ntx += int(cnew_lines[i][1])
         clients.append(cnew_lines[i][0])
     if ntx > ct1:
+        optcount += 1
         print()
-        print("Optimization recommendation: Redistribute clients because client bottleneck was detected")
+        print(optcount, "Optimization recommendation: Redistribute clients because client bottleneck was detected")
         print(ntx," transactions out of", n," transactions were send by the clients:", clients)
         print()
         print("##########################################################################################")
@@ -225,6 +231,7 @@ def client_dist():
 
 def endorser_dist():
     global n
+    global optcount
     cpath = full_path + '/endorser_significance.csv'
     cfile = open(cpath)
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
@@ -239,8 +246,9 @@ def endorser_dist():
         ntx += int(cnew_lines[i][1])
         endorsers.append(cnew_lines[i][0])
     if ntx > et1:
+        optcount += 1
         print()
-        print("Optimization recommendation: Redefined endorsement policy because endorser bottleneck was detected")
+        print(optcount, "Optimization recommendation: Redefined endorsement policy because endorser bottleneck was detected")
         print(ntx," transactions out of", n," transactions were send by the set of endorsers:", endorsers)
         print()
         print("##########################################################################################")
@@ -248,6 +256,7 @@ def endorser_dist():
 def read_tx_batch():
     global n
     global new_lines
+    global optcount
     nRT = 0
     nfRT = 0
     rt_fail_tx = []
@@ -269,8 +278,9 @@ def read_tx_batch():
     #print(rt_fail_tx)
 
     if nfRT > bat:
+        optcount += 1
         print()
-        print("Optimization recommendation: Batch read transactions")
+        print(optcount, "Optimization recommendation: Batch read transactions")
         print(nfRT," transactions out of",nRT," read transactions failed due to read conflicts. The failed transactions are:", rt_fail_tx)
         print()
         print("##########################################################################################")
@@ -278,6 +288,7 @@ def read_tx_batch():
 def tx_reordering():
     global n
     global new_lines
+    global optcount
     cpath = full_path + '/datavalue_correlation.csv'
     cfile = open(cpath)
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
@@ -310,19 +321,70 @@ def tx_reordering():
 
     #print(reorderpairs)
     reorderpairs_final=set(tuple(element) for element in reorderpairs)
+    counts = Counter(map(tuple, reorderpairs))
 
 
     if (len(reorderpairs) > 0):
+        optcount += 1
         print()
-        print("Optimization recommendation: Reordering possibilities detected")
+        print(optcount, "Optimization recommendation: Reordering possibilities detected")
         print("The following pairs of transactions can be reordered (reverse the order) to avoid conflicts:")
         print(reorderpairs_final)
+        print("The number of conflicts for each pair is as follows:")
+        print(counts)
         print()
         print("##########################################################################################")
 
 
+def deltawrites():
+    global n
+    global new_lines
+    global optcount
+    cpath = full_path + '/datavalue_correlation.csv'
+    cfile = open(cpath)
+    creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
+    cnew_lines = list(creader)
 
+    deltatx=[]
+    for i in range(len(cnew_lines)):
+        if ((i != 0) and len(cnew_lines[i][8].split()) == 1):
+            deltatx.append(cnew_lines[i][6])
 
+    deltatx_final=set(deltatx)
+    counts = Counter(deltatx)
+
+    if (len(deltatx) > 0):
+        optcount += 1
+        print()
+        print(optcount, "Optimization recommendation: Possibility of delta writes detected")
+        print("The following transactions contain writes to a single key and could be converted to delta writes to avoid conflicts:")
+        print(deltatx_final)
+        print("The number of conflicts caused by each transaction is as follows:")
+        print(counts)
+        print()
+        print("##########################################################################################")
+
+def splitbatch_chaincodes():
+    global optcount
+    cpath = full_path + '/key_significance.csv'
+    cfile = open(cpath)
+    creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
+    cnew_lines = list(creader)
+
+    ht1 = 3
+    if (len(cnew_lines) > 1):
+        optcount += 1
+        print()
+        print(optcount, "Optimization recommendation: Hot keys have been detected")
+        print("The top", ht1, "hotkeys are shown below along with the transactions that use them.")
+        print("Spliting chaincodes or batching withing the chaincodes are possible optimizations to avoid conflicts:")
+        print()
+    for i in range(1, ht1+1):
+        txnames=set(cnew_lines[i][2].split())
+        print(i, "Key:", cnew_lines[i][0], "Frequency:", cnew_lines[i][1], "Transactions:", txnames)
+
+    print()
+    print("##########################################################################################")
 
 #Metrics
 rate_metrics()
@@ -333,13 +395,13 @@ key_sig()
 datavalue_correlation()
 
 #Optimization strategies
-#client_dist()
-#endorser_dist()
-##blocksize_opt()
-#read_tx_batch()
-##load_shedding()
+client_dist()
+endorser_dist()
+#blocksize_opt()
+read_tx_batch()
+#load_shedding()
 tx_reordering()
-##deltawrites()
-##splitbatch_chaincodes()
+deltawrites()
+splitbatch_chaincodes()
 
 
