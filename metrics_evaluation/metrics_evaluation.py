@@ -273,6 +273,8 @@ def read_tx_batch():
 
     bat=nRT/2
 
+    rt_fail_tx_final = set(rt_fail_tx)
+
     #print(nRT)
     #print(nfRT)
     #print(rt_fail_tx)
@@ -281,7 +283,7 @@ def read_tx_batch():
         optcount += 1
         print()
         print(optcount, "Optimization recommendation: Batch read transactions")
-        print(nfRT," transactions out of",nRT," read transactions failed due to read conflicts. The failed transactions are:", rt_fail_tx)
+        print(nfRT," transactions out of",nRT," read transactions failed due to read conflicts. The failed transactions are:", rt_fail_tx_final)
         print()
         print("##########################################################################################")
 
@@ -397,9 +399,9 @@ datavalue_correlation()
 #Optimization strategies
 client_dist()
 endorser_dist()
-#blocksize_opt()
+##blocksize_opt()
 read_tx_batch()
-#load_shedding()
+##load_shedding()
 tx_reordering()
 deltawrites()
 splitbatch_chaincodes()
