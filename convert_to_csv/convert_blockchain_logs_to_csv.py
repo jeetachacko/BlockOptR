@@ -26,6 +26,7 @@ csv_path =full_path + "/csvblockchain.csv"
 
 file_dir=home_dir + log_dir
 
+initfunc='InitLedger'
 
 def scan_files(path):
     
@@ -304,7 +305,7 @@ def get_transaction_status(path):
         new_lines[i][11]=0
 
     for i in range(len(new_lines)):
-        if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != 'initLedger':
+        if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != initfunc:
             if new_lines[i][7] == 'NULL' or new_lines[i][7] == '' or new_lines[i][7] is None or new_lines[i][7] == "":
                 rk=0
             if new_lines[i][8] == 'NULL' or new_lines[i][8] == '' or new_lines[i][8] is None or new_lines[i][8] == "":
@@ -339,15 +340,15 @@ def organize_log(path):
     setline = 0
     length = 0
     for i in range(len(new_lines)):
-        if new_lines[i][3] == 'initLedger':
+        if new_lines[i][3] == initfunc:
             setline = 1
-        if setline == 1 and new_lines[i][3] != 'initLedger':
+        if setline == 1 and new_lines[i][3] != initfunc:
             length = i
             break
     if length > 0:
         for i in range(1, length):
             del new_lines[1]
-    new_lines_final = [v for v in new_lines if v[3] != 'initLedger']
+    new_lines_final = [v for v in new_lines if v[3] != initfunc]
     writer = csv.writer(open('%s/clean_blockchainlog.csv' % full_path, 'w'))
     writer.writerows(new_lines_final)
 

@@ -26,6 +26,7 @@ csv_path =full_path + "/clean_blockchainlog.csv"
 
 file_dir=home_dir + log_dir
 
+initfunc='InitLedger'
 
 def is_phrase_in(phrase, text):
     return re.search(r"\b{}\b".format(phrase), text, re.IGNORECASE) is not None
@@ -39,7 +40,7 @@ def activity_based_caseid(path):
 
     activity_name=[]
     for i in range(len(new_lines)):
-        if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != 'initLedger' and new_lines[i][3] not in activity_name:
+        if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != initfunc and new_lines[i][3] not in activity_name:
            activity_name.append(new_lines[i][3])
 
     for k in range(len(activity_name)):
@@ -64,7 +65,7 @@ def key_based_caseid(path):
         readkey = []
         writekey = []
         rangekey = []
-        if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != 'initLedger':
+        if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != initfunc:
            readkey += (lines[i][7].strip()).split()
            for k in readkey:
              if k not in unique_keys and k != 'NULL' and k != '':
@@ -87,7 +88,7 @@ def key_based_caseid(path):
         new_lines.append(["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "case_id"])
 
         for i in range(len(lines)):
-            if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != 'initLedger':
+            if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != initfunc:
                if (key != '') and (is_phrase_in(key, lines[i][7].strip()) or is_phrase_in(key, lines[i][8].strip()) or is_phrase_in(key, lines[i][9].strip())):
                    new_lines.append(lines[i])
                    numdependencies+=1

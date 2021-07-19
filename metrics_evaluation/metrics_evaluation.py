@@ -126,15 +126,17 @@ def endorser_sig():
     writer.writerow(["Endorser", "EDsig"])
     endorsers=[]
     for i in range(len(new_lines)):
-        if i != 0 and new_lines[i][5] not in endorsers:
-           endorsers.append(new_lines[i][5])
+        endt = new_lines[i][5].split()
+        for j in range(len(endt)):
+            if i != 0 and endt[j] not in endorsers:
+                endorsers.append(endt[j])
 
     edrows = [[None for _ in range(2)] for _ in range(len(endorsers))]
 
     for k in range(len(endorsers)):
         txcount = 0
         for i in range(len(new_lines)):
-            if i != 0 and new_lines[i][5]==endorsers[k]:
+            if i != 0 and endorsers[k] in new_lines[i][5]:
                txcount+=1
         edrows[k] = [endorsers[k], txcount]
 
@@ -242,14 +244,16 @@ def endorser_dist():
     ntx = 0
     endorsers=[]
 
-    for i in range(1, et2+1):
-        ntx += int(cnew_lines[i][1])
-        endorsers.append(cnew_lines[i][0])
-    if ntx > et1:
+    for i in range(1, len(cnew_lines)):
+        if (int(cnew_lines[i][1]) > et1): 
+            endorsers.append([cnew_lines[i][0], cnew_lines[i][1]])
+
+
+    if len(endorsers) > 0:
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Redefined endorsement policy because endorser bottleneck was detected")
-        print(ntx," transactions out of", n," transactions were send by the set of endorsers:", endorsers)
+        print(optcount, "Optimization recommendation: Redefine endorsement policy because endorser bottleneck was detected")
+        print("More than", et1," transactions out of", n," transactions were endorsed by the set of endorsers:", endorsers)
         print()
         print("##########################################################################################")
 
