@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set +ex
 
+chaincode=$1
+
 rm log_extraction/data/*
 
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf log_extraction"
@@ -22,6 +24,15 @@ mkdir log_store/$logdir/csv/keybased
 python3 convert_to_csv/convert_blockchain_logs_to_csv.py $logdir
 python3 caseid_generation/caseid_generation.py $logdir
 python3 metrics_evaluation/metrics_evaluation.py $logdir > log_store/$logdir/optimizationrecommendations.txt
+mkdir log_store/$logdir/configfiles
+cp /home/ubuntu/hyperledgerlab2/caliper/benchmarks/$chaincode/config.yaml log_store/$logdir/configfiles/
+cp /home/ubuntu/hyperledgerlab2/fabric/network-configuration.yaml log_store/$logdir/configfiles/
+cp /home/ubuntu/hyperledgerlab2/terraform/cluster.tfvars log_store/$logdir/configfiles/
+cp /home/ubuntu/hyperledgerlab2/caliper/caliper-config/templates/networkConfig.yaml log_store/$logdir/configfiles/
+cp /home/ubuntu/hyperledgerlab2/fabric/config/templates/configtx.yaml log_store/$logdir/configfiles/
+kubectl logs -f $(kubectl get pods | awk '/manager/ {print $1;exit}') > log_store/$logdir/configfiles/caliper_logs.txt
+cp /home/ubuntu/hyperledgerlab2/caliper/benchmarks/generator/getParameters.js log_store/$logdir/configfiles/
+cp /home/ubuntu/hyperledgerlab2/caliper/benchmarks/generator/random.js log_store/$logdir/configfiles/
 rm log_extraction/data/*
 
 set -ex
