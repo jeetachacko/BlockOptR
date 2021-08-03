@@ -348,9 +348,13 @@ def organize_log(path):
     if length > 0:
         for i in range(1, length):
             del new_lines[1]
+
     new_lines_final = [v for v in new_lines if v[3] != initfunc]
+    new_lines_sort = sorted(new_lines_final,key=lambda l:l[0])
     writer = csv.writer(open('%s/clean_blockchainlog.csv' % full_path, 'w'))
-    writer.writerows(new_lines_final)
+    writer.writerow(new_lines_sort[len(new_lines_sort)-1])
+    for i in range(len(new_lines_sort)-1):
+        writer.writerow(new_lines_sort[i])
 
 
 def is_phrase_in(phrase, text):
