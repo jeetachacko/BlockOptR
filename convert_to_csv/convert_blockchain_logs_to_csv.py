@@ -14,7 +14,7 @@ import sys
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
 #fields contains the keys in json file which will be extracted
-fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "case_id"]
+fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "case_id"]
 
 home_dir = "/home/ubuntu/BlockProM/log_store/"
 log_dir = ' '.join(sys.argv[1:])
@@ -28,13 +28,19 @@ file_dir=home_dir + log_dir
 
 initfunc='InitLedger'
 
+
 def scan_files(path):
     
+    getbs=0
     case_id=1
+    blk_num=0
+
+    bswriter = csv.writer(open('%s/actual_blocksize.csv' % full_path, 'w'))
+    bswriter.writerow(["BlockNumber", "Number of transactions"])
 
     with open(csv_path,"w") as f:
        
-        f.write("timestamp;tx_id;creatorid;activity_name;function_args;endorsers_id;tx_status;readkeys;writekeys;rangekeys;transaction_type;case_id\n")
+        f.write("timestamp;tx_id;creatorid;activity_name;function_args;endorsers_id;tx_status;readkeys;writekeys;rangekeys;transaction_type;block number;case_id\n")
         f.close()
     dir_dict={}
     
@@ -63,14 +69,13 @@ def scan_files(path):
         with open(file_path) as json_file:
             
             json_data = json.load(json_file)
-            
 
             #TIMESTAMP
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     ires = res[x]['payload']['header']['channel_header']['timestamp']
                     field_values.append(ires)
             except Exception:
@@ -83,8 +88,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     ires = res[x]['payload']['header']['channel_header']['tx_id']
                     field_values.append(ires)
             except Exception:
@@ -97,8 +102,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     ires = res[x]['payload']['header']['signature_header']['creator']['Mspid']
                     field_values.append(ires)
             except Exception:
@@ -113,8 +118,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     ires = res[x]['payload']['data']['actions'][0]['payload']['chaincode_proposal_payload']['input']['chaincode_spec']['input']['args'][0]['data']
                     restr = bytes(ires).decode("utf8")
                     field_values.append(restr)
@@ -128,10 +133,10 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
-                    arg2 = res[x]['payload']['data']['actions'][0]['payload']['chaincode_proposal_payload']['input']['chaincode_spec']['input']['args'][1]['data']
-                    restr = bytes(arg2).decode("utf8")
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
+                    arg_new = res[x]['payload']['data']['actions'][0]['payload']['chaincode_proposal_payload']['input']['chaincode_spec']['input']['args'][1]['data']
+                    restr = bytes(arg_new).decode("utf8")
                     field_values.append(restr)
             except Exception:
                 field_values.append("NULL")
@@ -143,8 +148,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     restr = ''
                     endorsements = res[x]['payload']['data']['actions'][0]['payload']['action']['endorsements']
                     endl = len(res[x]['payload']['data']['actions'][0]['payload']['action']['endorsements'])
@@ -165,8 +170,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['metadata']['metadata'][2]
-                resl = len(res)
-                for x in range(resl):
+                res_len = len(res)
+                for x in range(res_len):
                     tx_status = tx_failures[res[x]]
                     if res[x] == 254:
                        tx_status = tx_failures[26]
@@ -183,8 +188,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     readkeys=''
                     #numreads = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['reads'])
                     numreads = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['reads'])
@@ -204,8 +209,8 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     writekeys=''
                     #numwrites = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['writes'])
                     numwrites = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['writes'])
@@ -226,16 +231,18 @@ def scan_files(path):
             field_values=[]
             try:
                 res = json_data['data']['data']
-                resl = len(json_data['data']['data'])
-                for x in range(resl):
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
                     try:
                         rangekeys=''
-                        #numrange = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['range_queries_info'][0]['raw_reads']['kv_reads'])
-                        numrange = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['range_queries_info'][0]['raw_reads']['kv_reads'])
-                        for y in range(numrange):
-                            #key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['range_queries_info'][0]['raw_reads']['kv_reads'][y]['key']
-                            key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['range_queries_info'][0]['raw_reads']['kv_reads'][y]['key']
-                            rangekeys = rangekeys + ' ' + key
+                        range_len = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['range_queries_info'])
+                        for q in range(range_len):
+                            #numrange = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['range_queries_info'][q]['raw_reads']['kv_reads'])
+                            numrange = len(res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['range_queries_info'][q]['raw_reads']['kv_reads'])
+                            for y in range(numrange):
+                                #key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][0]['rwset']['range_queries_info'][q]['raw_reads']['kv_reads'][y]['key']
+                                key = res[x]['payload']['data']['actions'][0]['payload']['action']['proposal_response_payload']['extension']['results']['ns_rwset'][1]['rwset']['range_queries_info'][q]['raw_reads']['kv_reads'][y]['key']
+                                rangekeys = rangekeys + ' ' + key
                         field_values.append(rangekeys)
                     except Exception:
                         field_values.append("NULL")
@@ -247,10 +254,51 @@ def scan_files(path):
 
             file_values.append(field_values)
 
+            #BLOCK SIZE
+            if(getbs==0):
+                try:
+                    res = json_data['data']['data']
+                    blocksize = res[0]['payload']['data']['config']['channel_group']['groups']['Orderer']['values']['BatchSize']['value']['max_message_count']
+                    maxbytes = res[0]['payload']['data']['config']['channel_group']['groups']['Orderer']['values']['BatchSize']['value']['absolute_max_bytes']
+                    preferredmaxbytes = res[0]['payload']['data']['config']['channel_group']['groups']['Orderer']['values']['BatchSize']['value']['preferred_max_bytes']
+                    blocktimeout = res[0]['payload']['data']['config']['channel_group']['groups']['Orderer']['values']['BatchTimeout']['value']['timeout']
+                    #print(blocksize)
+                    getbs=1
+                    writer = csv.writer(open('%s/config_blocksize.csv' % full_path, 'w'))
+                    writer.writerow(["Blocksize", blocksize])
+                    writer.writerow(["absolute_max_bytes", maxbytes])
+                    writer.writerow(["preferred_max_bytes", preferredmaxbytes])
+                    writer.writerow(["timeout", blocktimeout])
+
+
+                except Exception:
+                    print(Exception)
+
+
+
+
             #TransactionType
             field_values=[]
             field_values.append("")
             file_values.append(field_values)
+
+
+            #BlockNumber
+            field_values=[]
+            try:
+                res = json_data['data']['data']
+                res_len = len(json_data['data']['data'])
+                bswriter.writerow([blk_num, res_len])
+                for x in range(res_len):
+                    field_values.append(blk_num)
+                blk_num += 1
+            except Exception:
+                field_values.append(blk_num)
+                blk_num += 1
+                pass
+
+            file_values.append(field_values)
+
 
 
             json_file.close()
@@ -276,9 +324,9 @@ def csv_write(fields, data,path,case_id):
                 if (i < len(data[j])):
                     f.write("\"%s\"" % data[j][i])
                     
-                    if(data[j][i]=="viewEHR"):
-                        case_id+=1
-                        count=1
+                    #if(data[j][i]=="viewEHR"):
+                    #    case_id+=1
+                    #    count=1
                 else:
                     f.write("\"\"")
                 if(j < len(data)-1):
@@ -287,8 +335,8 @@ def csv_write(fields, data,path,case_id):
             f.write(str(case_id))
             f.write("\n")
         
-        if(count == 0):
-            case_id+=1
+        #if(count == 0):
+        #    case_id+=1
         
         f.close()
         return case_id
@@ -302,7 +350,7 @@ def get_transaction_status(path):
     reader = csv.reader((x.replace('\0', '') for x in file), delimiter=';')
     new_lines = list(reader)
     for i in range(len(new_lines)):
-        new_lines[i][11]=0
+        new_lines[i][12]=0
 
     for i in range(len(new_lines)):
         if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != initfunc:

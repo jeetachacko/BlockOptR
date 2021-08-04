@@ -1,4 +1,3 @@
-#TODO: mkdir csv if it does not exist. If it exists then rm csv/*
 
 
 #!/usr/bin/env python
@@ -65,6 +64,7 @@ def rate_metrics():
 
 def failure_metrics():
 
+    #TODO: Activity failure rate
     global n
     global TM
     global new_lines
@@ -95,6 +95,70 @@ def failure_metrics():
     writer.writerow(["Phantom read conflict", "PRC",str(nPRC)])
     writer.writerow(["Phantom read conflict rate", "PRCr",str(nPRC/TM)])
     writer.writerow(["Phantom read conflict %", "PRCp",str((nPRC/n)*100)])
+
+    print()
+    print(optcount, "Optimization recommendation: Implement all optimizations based on the number of transaction failures as listed below")
+    print("Total Failures:", nf)
+    print("MVCC read conflict:", nMRC)
+    print("Endorsement policy failure:", nEPF)
+    print("Phantom read conflict:", nPRC)
+    print()
+    print("##########################################################################################")
+
+
+def rate_distribution():
+    #Total number of transactions in the log
+    global n
+    global new_lines
+    writer = csv.writer(open('%s/rate_distribution.csv' % full_path, 'w'))
+    writer.writerow(["Interval", "Tx Rate dist", "Failure Rate dist", "MVCC rd", "Phantom rf", "Endorsement rd", "ActivityFrequency"])
+    #Time interval for distribution in seconds
+    interval = 3 
+    nt = 1
+    ft = 0
+    mt = 0
+    pt = 0
+    et = 0
+    af=[]
+    row=[]
+    interval_count=0
+
+
+    begin_time = arrow.get(new_lines[1][0]).datetime
+    for i in range(2, len(new_lines)):
+        nt = nt+1
+        if new_lines[i][6] != "VALID":
+            ft += 1
+            af.append(new_lines[i][3])
+            if new_lines[i][6] == "MVCC_READ_CONFLICT":
+                mt += 1
+            elif new_lines[i][6] == "ENDORSEMENT_POLICY_FAILURE":
+                et += 1
+            elif new_lines[i][6] == "PHANTOM_READ_CONFLICT":
+                pt += 1
+        print(i)
+        end_time = arrow.get(new_lines[i][0]).datetime
+        duration = (end_time - begin_time).total_seconds()
+        print(duration)
+        if duration >= interval:
+            interval_count += 1
+            trd = nt/duration
+            frd = ft/duration
+            mrd = mt/duration
+            prd = pt/duration
+            erd = et/duration
+            af_counts = Counter(af)
+            row.append([interval_count,trd,frd,mrd,prd,erd,af_counts])
+            writer.writerows(row)
+            nt=0
+            ft=0
+            mt = 0
+            pt = 0
+            et = 0
+            af=[]
+            row=[]
+            duration=0
+            begin_time = arrow.get(new_lines[i+1][0]).datetime
 
 
 def originator_sig():
@@ -183,7 +247,7 @@ def key_sig():
 
 def datavalue_correlation():
     writer = csv.writer(open('%s/datavalue_correlation.csv' % full_path, 'w'))
-    writer.writerow(['Failed transaction','activity_name','Readset','WriteSet','RangeReadSet','Dependent transaction(valid)','activity_name','Readset','WriteSet','RangeReadSet','ReorderingPossibility'])
+    writer.writerow(['Failed transaction','activity_name','Readset','WriteSet','RangeReadSet','Dependent transaction(valid)','activity_name','Readset','WriteSet','RangeReadSet','ReorderingPossibility', 'BlockNumberTx1', 'BlockNumberTx2', 'ProximityCorrelation'])
     
     dv=[]
 
@@ -201,7 +265,12 @@ def datavalue_correlation():
                     else:
                         reorder = False
 
-                    dv.append([new_lines[i][1],new_lines[i][3],new_lines[i][7],new_lines[i][8],new_lines[i][9],new_lines[j][1],new_lines[j][3],new_lines[j][7],new_lines[j][8],new_lines[j][9],reorder])
+                    if (new_lines[i][11] == new_lines[j][11]):
+                        pcor = 0
+                    else:
+                        pcor = 1
+
+                    dv.append([new_lines[i][1],new_lines[i][3],new_lines[i][7],new_lines[i][8],new_lines[i][9],new_lines[j][1],new_lines[j][3],new_lines[j][7],new_lines[j][8],new_lines[j][9],reorder,new_lines[i][11],new_lines[j][11],pcor])
 
     writer.writerows(dv)
 
@@ -393,21 +462,25 @@ def splitbatch_chaincodes():
     print("##########################################################################################")
 
 #Metrics
-rate_metrics()
-failure_metrics()
-originator_sig()
-endorser_sig()
-key_sig()
+#rate_metrics()
+#failure_metrics()
+#originator_sig()
+#endorser_sig()
+#key_sig()
 datavalue_correlation()
+#rate_distribution() #transactionrate, failurerate of each failure, activity failure rate, activity transaction rate
+#blocksize()
+##transactiontype_correlation()
+##proximity_correlation()
 
 #Optimization strategies
-client_dist()
-endorser_dist()
+#client_dist()
+#endorser_dist()
 ##blocksize_opt()
-read_tx_batch()
-##load_shedding()
-tx_reordering()
-deltawrites()
-splitbatch_chaincodes()
+#read_tx_batch()
+##rate_control()
+#tx_reordering()
+#deltawrites()
+#splitbatch_chaincodes()
 
 

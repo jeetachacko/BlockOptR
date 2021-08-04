@@ -14,7 +14,7 @@ import sys
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
 #fields contains the keys in json file which will be extracted
-fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "case_id"]
+fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "case_id"]
 
 home_dir = "/home/ubuntu/BlockProM/log_store/"
 log_dir = ' '.join(sys.argv[1:])
@@ -36,7 +36,7 @@ def activity_based_caseid(path):
     reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
     new_lines = list(reader)
     for i in range(len(new_lines)):
-        new_lines[i][11]=0
+        new_lines[i][12]=0
 
     activity_name=[]
     for i in range(len(new_lines)):
@@ -47,7 +47,7 @@ def activity_based_caseid(path):
         case_id=1
         for i in range(len(new_lines)):
             if i != 0 and new_lines[i][3]==activity_name[k]:
-               new_lines[i][11]=case_id
+               new_lines[i][12]=case_id
                case_id+=1
 
     writer = csv.writer(open('%s/activity_based_caseid_blockchainlog.csv' % full_path, 'w'))
@@ -60,7 +60,7 @@ def key_based_caseid(path):
     reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
     lines = list(reader)
     for i in range(len(lines)):
-        lines[i][11]=0
+        lines[i][12]=0
     for i in range(len(lines)):
         readkey = []
         writekey = []
@@ -85,7 +85,7 @@ def key_based_caseid(path):
     for key in unique_keys:
         numdependencies=0
         new_lines=[]
-        new_lines.append(["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "case_id"])
+        new_lines.append(["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "case_id"])
 
         for i in range(len(lines)):
             if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != initfunc:
@@ -102,7 +102,7 @@ def key_based_caseid(path):
             case_id=1
             for i in range(len(new_lines)):
                 if new_lines[i][3]==activity_name[k]:
-                   new_lines[i][11]=case_id 
+                   new_lines[i][12]=case_id 
                    case_id+=1
         writer = csv.writer(open('%s/keybased/%s_blockchainlog.csv' % (full_path, key), 'w'))
         writer.writerows(new_lines)
