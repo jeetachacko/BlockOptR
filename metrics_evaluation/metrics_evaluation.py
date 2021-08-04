@@ -15,7 +15,7 @@ from collections import Counter
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
 #fields contains the keys in json file which will be extracted
-fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "case_id"]
+fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "commit order", "case_id"]
 
 home_dir = "/home/ubuntu/BlockProM/log_store/"
 log_dir = ' '.join(sys.argv[1:])
@@ -27,8 +27,8 @@ csv_path =full_path + "/clean_blockchainlog.csv"
 
 file_dir=home_dir + log_dir
 
-writer = csv.writer(open('%s/metrics.csv' % full_path, 'w'))
-writer.writerow(["Metrics", "Variable_Name","Value"])
+#writer = csv.writer(open('%s/metrics.csv' % full_path, 'w'))
+#writer.writerow(["Metrics", "Variable_Name","Value"])
 
 file = open(csv_path)
 reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
@@ -47,6 +47,9 @@ def __datetime(date_str):
     #2021-07-13T10:19:51.987Z
 
 def rate_metrics():
+    writer = csv.writer(open('%s/metrics.csv' % full_path, 'w'))
+    writer.writerow(["Metrics", "Variable_Name","Value"])
+
     #Total number of transactions in the log
     global n 
     global new_lines
@@ -64,6 +67,9 @@ def rate_metrics():
 
 def failure_metrics():
 
+    writer = csv.writer(open('%s/metrics.csv' % full_path, 'w'))
+    writer.writerow(["Metrics", "Variable_Name","Value"])
+
     #TODO: Activity failure rate
     global n
     global TM
@@ -72,7 +78,7 @@ def failure_metrics():
     nMRC = 0
     nEPF = 0
     nPRC = 0
-    for i in range(len(new_lines)):
+    for i in range(1, len(new_lines)):
         if new_lines[i][6] != "VALID":
             nf += 1
             if new_lines[i][6] == "MVCC_READ_CONFLICT":
@@ -85,19 +91,20 @@ def failure_metrics():
 
     writer.writerow(["Total Failure", "TF",str(nf)])
     writer.writerow(["Total Failure rate", "TFr",str(nf/TM)])
-    writer.writerow(["Total Failure %", "TFp",str((nf/n)*100)])
+    writer.writerow(["Total Failure percent", "TFp",str((nf/n)*100)])
     writer.writerow(["MVCC read conflict", "MRC",str(nMRC)])
     writer.writerow(["MVCC read conflict rate", "MRCr",str(nMRC/TM)])
-    writer.writerow(["MVCC read conflict %", "MRCp",str((nMRC/n)*100)])
+    writer.writerow(["MVCC read conflict percent", "MRCp",str((nMRC/n)*100)])
     writer.writerow(["Endorsement policy failure", "EPF",str(nEPF)])
     writer.writerow(["Endorsement policy failure rate", "EPFr",str(nEPF/TM)])
-    writer.writerow(["Endorsement policy failure %", "EPFp",str((nEPF/n)*100)])
+    writer.writerow(["Endorsement policy failure percent", "EPFp",str((nEPF/n)*100)])
     writer.writerow(["Phantom read conflict", "PRC",str(nPRC)])
     writer.writerow(["Phantom read conflict rate", "PRCr",str(nPRC/TM)])
-    writer.writerow(["Phantom read conflict %", "PRCp",str((nPRC/n)*100)])
+    writer.writerow(["Phantom read conflict percent", "PRCp",str((nPRC/n)*100)])
 
     print()
     print(optcount, "Optimization recommendation: Implement all optimizations based on the number of transaction failures as listed below")
+    print("Total number of transactions:", (len(new_lines) - 1))
     print("Total Failures:", nf)
     print("MVCC read conflict:", nMRC)
     print("Endorsement policy failure:", nEPF)
@@ -136,10 +143,10 @@ def rate_distribution():
                 et += 1
             elif new_lines[i][6] == "PHANTOM_READ_CONFLICT":
                 pt += 1
-        print(i)
+        #print(i)
         end_time = arrow.get(new_lines[i][0]).datetime
         duration = (end_time - begin_time).total_seconds()
-        print(duration)
+        #print(duration)
         if duration >= interval:
             interval_count += 1
             trd = nt/duration
@@ -246,31 +253,41 @@ def key_sig():
     writer.writerows(key_dependencies_sort)
 
 def datavalue_correlation():
+
+    cpath = full_path + '/commitorder_cleanlog.csv'
+    cfile = open(cpath)
+    creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
+    cnew_lines = list(creader)
+
+
+
     writer = csv.writer(open('%s/datavalue_correlation.csv' % full_path, 'w'))
     writer.writerow(['Failed transaction','activity_name','Readset','WriteSet','RangeReadSet','Dependent transaction(valid)','activity_name','Readset','WriteSet','RangeReadSet','ReorderingPossibility', 'BlockNumberTx1', 'BlockNumberTx2', 'ProximityCorrelation'])
     
     dv=[]
 
-    for i in range(len(new_lines)):
-        if (new_lines[i][6] == "MVCC_READ_CONFLICT" or new_lines[i][6] == "PHANTOM_READ_CONFLICT"):
+
+    for i in range(1, len(cnew_lines)):
+        if (cnew_lines[i][6] == "MVCC_READ_CONFLICT" or cnew_lines[i][6] == "PHANTOM_READ_CONFLICT"):
             for j in range(i-1, 0, -1):
-                txstatus = new_lines[j][6]
-                readseti = set(new_lines[i][7].split())
-                writeseti = set(new_lines[i][8].split())
-                rangeseti = set(new_lines[i][9].split())
-                writesetj = set(new_lines[j][8].split())
+                txstatus = cnew_lines[j][6]
+                readseti = set(cnew_lines[i][7].split())
+                writeseti = set(cnew_lines[i][8].split())
+                rangeseti = set(cnew_lines[i][9].split())
+                writesetj = set(cnew_lines[j][8].split())
                 if ((txstatus == "VALID") and ((readseti != '') or (rangeseti != '')) and ((bool(readseti.intersection(writesetj)) == True) or (bool(rangeseti.intersection(writesetj)) == True))):
                     if (bool(writeseti.intersection(writesetj)) == False):
                         reorder = True
                     else:
                         reorder = False
 
-                    if (new_lines[i][11] == new_lines[j][11]):
+                    if (cnew_lines[i][11] == cnew_lines[j][11]):
                         pcor = 0
                     else:
                         pcor = 1
 
-                    dv.append([new_lines[i][1],new_lines[i][3],new_lines[i][7],new_lines[i][8],new_lines[i][9],new_lines[j][1],new_lines[j][3],new_lines[j][7],new_lines[j][8],new_lines[j][9],reorder,new_lines[i][11],new_lines[j][11],pcor])
+                    dv.append([cnew_lines[i][1],cnew_lines[i][3],cnew_lines[i][7],cnew_lines[i][8],cnew_lines[i][9],cnew_lines[j][1],cnew_lines[j][3],cnew_lines[j][7],cnew_lines[j][8],cnew_lines[j][9],reorder,cnew_lines[i][11],cnew_lines[j][11],pcor])
+                    break
 
     writer.writerows(dv)
 
@@ -439,6 +456,34 @@ def deltawrites():
         print()
         print("##########################################################################################")
 
+def blocksize_opt():
+    global optcount
+    mpath = full_path + '/metrics.csv'
+    mfile = open(mpath)
+    mreader = csv.reader((x.replace('\0', '') for x in mfile), delimiter=',')
+    mnew_lines = list(mreader)
+    totmvccfail = int(mnew_lines[4][2]) + int(mnew_lines[10][2])
+
+    cpath = full_path + '/datavalue_correlation.csv'
+    cfile = open(cpath)
+    creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
+    cnew_lines = list(creader)
+    intrafail = 0
+    interfail = 0
+    for i in range(1, len(cnew_lines)):
+        if (cnew_lines[i][13] == '0'):
+            intrafail += 1
+        else:
+            interfail += 1
+    if intrafail > (totmvccfail/2):
+        optcount += 1
+        print()
+        print(optcount, "Optimization recommendation: Possibility of block size optimization detected")
+        print(intrafail,"intra-block and",interfail,"inter-block failures were identified out of a total of", totmvccfail, "MVCC failures")
+        print("Decreasing the blocksize can possibly lead to less intra block failures. The transaction rate and current block size should be considered before applying this optimization")
+        print()
+        print("##########################################################################################")
+
 def splitbatch_chaincodes():
     global optcount
     cpath = full_path + '/key_significance.csv'
@@ -461,26 +506,57 @@ def splitbatch_chaincodes():
     print()
     print("##########################################################################################")
 
+def rate_control():
+    global optcount
+    cpath = full_path + '/rate_distribution.csv'
+    cfile = open(cpath)
+    creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
+    cnew_lines = list(creader)
+
+    txratethreshold = 500
+    failureratethreshold = (txratethreshold * 0.3)
+
+    intervals=[]
+    intervals.append(cnew_lines[0])
+
+    for i in range(1, len(cnew_lines)):
+        if (float(cnew_lines[i][1]) >= txratethreshold) and (float(cnew_lines[i][2]) >= failureratethreshold):
+            intervals.append(cnew_lines[i])
+
+    if (len(intervals) > 0):
+        optcount += 1
+        print()
+        print(optcount, "Optimization recommendation: Possibility of rate control optimization detected")
+        print("The following intervals have high failure rate and transaction rate. Consider rate control if such occurences are frequent")
+        for i in range(len(intervals)):
+            print(intervals[i])
+        print()
+        print("##########################################################################################")
+
+
+
+
+
 #Metrics
-#rate_metrics()
-#failure_metrics()
-#originator_sig()
-#endorser_sig()
-#key_sig()
+rate_metrics()
+failure_metrics()
+originator_sig()
+endorser_sig()
+key_sig()
 datavalue_correlation()
-#rate_distribution() #transactionrate, failurerate of each failure, activity failure rate, activity transaction rate
-#blocksize()
+rate_distribution() #transactionrate, failurerate of each failure, activity failure rate, activity transaction rate
+##blocksize()
 ##transactiontype_correlation()
 ##proximity_correlation()
 
 #Optimization strategies
-#client_dist()
-#endorser_dist()
-##blocksize_opt()
-#read_tx_batch()
-##rate_control()
-#tx_reordering()
-#deltawrites()
-#splitbatch_chaincodes()
+client_dist()
+endorser_dist()
+blocksize_opt()
+read_tx_batch()
+rate_control()
+tx_reordering()
+deltawrites()
+splitbatch_chaincodes()
 
 

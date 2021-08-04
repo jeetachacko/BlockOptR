@@ -14,7 +14,7 @@ import sys
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
 #fields contains the keys in json file which will be extracted
-fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "case_id"]
+fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "commit order", "case_id"]
 
 home_dir = "/home/ubuntu/BlockProM/log_store/"
 log_dir = ' '.join(sys.argv[1:])
@@ -34,13 +34,14 @@ def scan_files(path):
     getbs=0
     case_id=1
     blk_num=0
+    commitorder=0
 
     bswriter = csv.writer(open('%s/actual_blocksize.csv' % full_path, 'w'))
     bswriter.writerow(["BlockNumber", "Number of transactions"])
 
     with open(csv_path,"w") as f:
        
-        f.write("timestamp;tx_id;creatorid;activity_name;function_args;endorsers_id;tx_status;readkeys;writekeys;rangekeys;transaction_type;block number;case_id\n")
+        f.write("timestamp;tx_id;creatorid;activity_name;function_args;endorsers_id;tx_status;readkeys;writekeys;rangekeys;transaction_type;block number;commit order;case_id\n")
         f.close()
     dir_dict={}
     
@@ -299,6 +300,22 @@ def scan_files(path):
 
             file_values.append(field_values)
 
+            #Commit order
+            field_values=[]
+            try:
+                res = json_data['data']['data']
+                res_len = len(json_data['data']['data'])
+                for x in range(res_len):
+                    field_values.append(commitorder)
+                    commitorder += 1
+            except Exception:
+                field_values.append(commitorder)
+                commitorder += 1
+                pass
+
+            file_values.append(field_values)
+
+
 
 
             json_file.close()
@@ -350,7 +367,7 @@ def get_transaction_status(path):
     reader = csv.reader((x.replace('\0', '') for x in file), delimiter=';')
     new_lines = list(reader)
     for i in range(len(new_lines)):
-        new_lines[i][12]=0
+        new_lines[i][13]=0
 
     for i in range(len(new_lines)):
         if i != 0 and new_lines[i][3] != 'NULL' and new_lines[i][3] != 'deploy' and new_lines[i][3] != initfunc:
@@ -403,6 +420,12 @@ def organize_log(path):
     writer.writerow(new_lines_sort[len(new_lines_sort)-1])
     for i in range(len(new_lines_sort)-1):
         writer.writerow(new_lines_sort[i])
+
+    new_lines_csort = sorted(new_lines_final,key=lambda l:l[12])
+    cwriter = csv.writer(open('%s/commitorder_cleanlog.csv' % full_path, 'w'))
+    cwriter.writerow(new_lines_csort[len(new_lines_csort)-1])
+    for i in range(len(new_lines_csort)-1):
+        cwriter.writerow(new_lines_csort[i])
 
 
 def is_phrase_in(phrase, text):
