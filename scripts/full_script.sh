@@ -34,5 +34,15 @@ kubectl logs -f $(kubectl get pods | awk '/manager/ {print $1;exit}') > log_stor
 cp /home/ubuntu/hyperledgerlab2/caliper/benchmarks/generator/getParameters.js log_store/$logdir/configfiles/
 cp /home/ubuntu/hyperledgerlab2/caliper/benchmarks/generator/random.js log_store/$logdir/configfiles/
 rm log_extraction/data/*
+rm log_store/$logdir/*.json
+
+printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $4}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
+printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $6}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
+printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $8}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
+printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $14}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
+printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $16}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
+
+python3 metrics_evaluation/extractcalipermetrics.py $logdir
+
 
 set -ex
