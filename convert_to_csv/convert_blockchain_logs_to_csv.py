@@ -26,8 +26,9 @@ csv_path =full_path + "/csvblockchain.csv"
 
 file_dir=home_dir + log_dir
 
-initfunc='InitLedger'
 
+initfunc='InitLedger'
+#initfunc='CommitChaincodeDefinition'
 
 def scan_files(path):
     

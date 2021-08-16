@@ -47,7 +47,7 @@ def __datetime(date_str):
     #2021-07-13T10:19:51.987Z
 
 def rate_metrics():
-    writer = csv.writer(open('%s/metrics.csv' % full_path, 'w'))
+    writer = csv.writer(open('%s/ratemetrics.csv' % full_path, 'w'))
     writer.writerow(["Metrics", "Variable_Name","Value"])
 
     #Total number of transactions in the log
@@ -67,7 +67,7 @@ def rate_metrics():
 
 def failure_metrics():
 
-    writer = csv.writer(open('%s/metrics.csv' % full_path, 'w'))
+    writer = csv.writer(open('%s/failuremetrics.csv' % full_path, 'w'))
     writer.writerow(["Metrics", "Variable_Name","Value"])
 
     #TODO: Activity failure rate
@@ -165,7 +165,8 @@ def rate_distribution():
             af=[]
             row=[]
             duration=0
-            begin_time = arrow.get(new_lines[i+1][0]).datetime
+            if (i+1) < len(new_lines):
+                begin_time = arrow.get(new_lines[i+1][0]).datetime
 
 
 def originator_sig():
@@ -325,21 +326,25 @@ def endorser_dist():
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
     cnew_lines = list(creader)
     nendorsers = len(cnew_lines) - 1
+
     et1 = n // 2
     et2 = nendorsers // 2
     ntx = 0
     endorsers=[]
+    allendorsers=[]
 
     for i in range(1, len(cnew_lines)):
         if (int(cnew_lines[i][1]) > et1): 
             endorsers.append([cnew_lines[i][0], cnew_lines[i][1]])
+        allendorsers.append([cnew_lines[i][0]])
+        print("All Endorsers:", cnew_lines[i][0],cnew_lines[i][1])
 
-
-    if len(endorsers) > 0:
+    if len(endorsers) < len(allendorsers):
         optcount += 1
         print()
         print(optcount, "Optimization recommendation: Redefine endorsement policy because endorser bottleneck was detected")
-        print("More than", et1," transactions out of", n," transactions were endorsed by the set of endorsers:", endorsers)
+        print("More than", et1, "transactions out of", n, "transactions were endorsed by the set of endorsers:", endorsers)
+        print("Try to distribute the endorsements equally among all the endorsers", allendorsers)
         print()
         print("##########################################################################################")
 
@@ -458,7 +463,33 @@ def deltawrites():
 
 def blocksize_opt():
     global optcount
-    mpath = full_path + '/metrics.csv'
+    bst1 = 1.2 #20% increase
+    bst2 = 0.8 #20% decrease
+    xpath = full_path + '/actual_blocksize.csv'
+    xfile = open(xpath)
+    xreader = csv.reader((x.replace('\0', '') for x in xfile), delimiter=',')
+    xnew_lines = list(xreader)
+
+    start_blknum = int(new_lines[1][11])
+    total = 0
+    count = 0
+
+    for i in range((start_blknum+2), len(xnew_lines)):
+        total += int(xnew_lines[i][1])
+        count += 1
+
+    actualbs = int(total/count)
+    #print("Actual average block size", actualbs)
+
+    ypath = full_path + '/config_blocksize.csv'
+    yfile = open(ypath)
+    yreader = csv.reader((x.replace('\0', '') for x in yfile), delimiter=',')
+    ynew_lines = list(yreader)
+    
+    configbs = int(ynew_lines[0][1])
+    #print("Configured block size", configbs)
+
+    mpath = full_path + '/failuremetrics.csv'
     mfile = open(mpath)
     mreader = csv.reader((x.replace('\0', '') for x in mfile), delimiter=',')
     mnew_lines = list(mreader)
@@ -475,24 +506,53 @@ def blocksize_opt():
             intrafail += 1
         else:
             interfail += 1
-    if intrafail > (totmvccfail/2):
+    #print("intrafail", intrafail)
+    #print("interfail", interfail)
+
+    writer = csv.writer(open('%s/failuremetrics.csv' % full_path, 'a'))
+    writer.writerow(["Intra-block failures", "intra",intrafail])
+    writer.writerow(["Inter-block failures", "inter",interfail])
+
+    ppath = full_path + '/rate_distribution.csv'
+    pfile = open(ppath)
+    preader = csv.reader((x.replace('\0', '') for x in pfile), delimiter=',')
+    pnew_lines = list(preader)
+
+    total = 0
+    count = 0
+    for i in range(1, len(pnew_lines)):
+            total += float(pnew_lines[i][1])
+            count += 1
+
+    avgtxrate = round(total/count)
+
+    print("avgtxrate", avgtxrate)
+    print("actualbs", actualbs)
+    if (avgtxrate > (actualbs*bst1)) or (avgtxrate < (actualbs*bst2)):
         optcount += 1
         print()
         print(optcount, "Optimization recommendation: Possibility of block size optimization detected")
-        print(intrafail,"intra-block and",interfail,"inter-block failures were identified out of a total of", totmvccfail, "MVCC failures")
-        print("Decreasing the blocksize can possibly lead to less intra block failures. The transaction rate and current block size should be considered before applying this optimization")
+        print("The average actual blocksize is", actualbs, "the configured block size is", configbs, "and the average transaction rate is", avgtxrate)
+        print("Matching the block size to the average transaction rate might lead to better performance. ")
         print()
         print("##########################################################################################")
 
 def splitbatch_chaincodes():
     global optcount
+    global n
+
     cpath = full_path + '/key_significance.csv'
     cfile = open(cpath)
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
     cnew_lines = list(creader)
 
+    ht0 = n * 0.1
     ht1 = 3
-    if (len(cnew_lines) > 1):
+    hotkey = cnew_lines[1][0]
+    hotkeyfreq = float(cnew_lines[1][1])
+    print("hotkeyfreq",hotkeyfreq)
+    print("ht0",ht0)
+    if (hotkeyfreq > ht0):
         optcount += 1
         print()
         print(optcount, "Optimization recommendation: Hot keys have been detected")
@@ -513,7 +573,7 @@ def rate_control():
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
     cnew_lines = list(creader)
 
-    txratethreshold = 500
+    txratethreshold = 800
     failureratethreshold = (txratethreshold * 0.3)
 
     intervals=[]
@@ -523,7 +583,7 @@ def rate_control():
         if (float(cnew_lines[i][1]) >= txratethreshold) and (float(cnew_lines[i][2]) >= failureratethreshold):
             intervals.append(cnew_lines[i])
 
-    if (len(intervals) > 0):
+    if (len(intervals) > 1):
         optcount += 1
         print()
         print(optcount, "Optimization recommendation: Possibility of rate control optimization detected")
