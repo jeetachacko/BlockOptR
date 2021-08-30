@@ -17,6 +17,7 @@ log_dir = ' '.join(sys.argv[1:])
 full_path = home_dir + log_dir + "/csv"
 
 def extractcaliperlogs():
+    nwriter = csv.writer(open('%s/allmetricslog.csv' % home_dir, 'a'))
     writer = csv.writer(open('%s/metricslog.csv' % full_path, 'w'))
     writer.writerow(["Succ", "Fail","SendRate","Latency","Throughput","Duration","SuccThroughput"])
 
@@ -34,7 +35,7 @@ def extractcaliperlogs():
     succthroughput=succ/duration
 
     writer.writerow([succ,fail,sendrate,latency,throughput,duration,succthroughput])
-
+    nwriter.writerow([succ,fail,sendrate,latency,throughput,duration,succthroughput])
 
 
 extractcaliperlogs()

@@ -39,6 +39,10 @@ TM=0
 
 optcount = 0
 
+#writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+#writer.writerow(["SlNo", "OptRec","Value"])
+
+
 def is_phrase_in(phrase, text):
     return re.search(r"\b{}\b".format(phrase), text, re.IGNORECASE) is not None
 
@@ -347,6 +351,8 @@ def endorser_dist():
         print("Try to distribute the endorsements equally among all the endorsers", allendorsers)
         print()
         print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Endorsement policy optimization", endorsers])
 
 def read_tx_batch():
     global n
@@ -381,6 +387,8 @@ def read_tx_batch():
         print(nfRT," transactions out of",nRT," read transactions failed due to read conflicts. The failed transactions are:", rt_fail_tx_final)
         print()
         print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Read transaction batching", rt_fail_tx_final])
 
 def tx_reordering():
     global n
@@ -431,6 +439,8 @@ def tx_reordering():
         print(counts)
         print()
         print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Transaction reordering", reorderpairs_final])
 
 
 def deltawrites():
@@ -460,11 +470,13 @@ def deltawrites():
         print(counts)
         print()
         print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Delta-writes possibility", deltatx_final])
 
 def blocksize_opt():
     global optcount
-    bst1 = 1.2 #20% increase
-    bst2 = 0.8 #20% decrease
+    bst1 = 1.6 #60% increase
+    bst2 = 0.4 #60% decrease
     xpath = full_path + '/actual_blocksize.csv'
     xfile = open(xpath)
     xreader = csv.reader((x.replace('\0', '') for x in xfile), delimiter=',')
@@ -536,6 +548,8 @@ def blocksize_opt():
         print("Matching the block size to the average transaction rate might lead to better performance. ")
         print()
         print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Block size optimization", avgtxrate])
 
 def splitbatch_chaincodes():
     global optcount
@@ -559,6 +573,8 @@ def splitbatch_chaincodes():
         print("The top", ht1, "hotkeys are shown below along with the transactions that use them.")
         print("Spliting chaincodes or batching withing the chaincodes are possible optimizations to avoid conflicts:")
         print()
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Hot key detection", hotkey])
     for i in range(1, ht1+1):
         txnames=set(cnew_lines[i][2].split())
         print(i, "Key:", cnew_lines[i][0], "Frequency:", cnew_lines[i][1], "Transactions:", txnames)
@@ -573,7 +589,7 @@ def rate_control():
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
     cnew_lines = list(creader)
 
-    txratethreshold = 800
+    txratethreshold = 200
     failureratethreshold = (txratethreshold * 0.3)
 
     intervals=[]
@@ -592,6 +608,8 @@ def rate_control():
             print(intervals[i])
         print()
         print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Transaction rate control", intervals])
 
 
 

@@ -27,6 +27,7 @@ csv_path =full_path + "/csvblockchain.csv"
 file_dir=home_dir + log_dir
 
 
+#initfunc='createElection'
 initfunc='InitLedger'
 #initfunc='CommitChaincodeDefinition'
 

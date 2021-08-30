@@ -111,7 +111,67 @@ def key_based_caseid(path):
     writer.writerows(key_dependencies)
 
  
+def new_key_based_caseid(path):
+    unique_keys=[]
+    file = open(path)
+    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
+    lines = list(reader)
+    for i in range(len(lines)):
+        lines[i][13]=0
+    for i in range(len(lines)):
+        readkey = []
+        writekey = []
+        rangekey = []
+        if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != initfunc:
+           readkey += (lines[i][7].strip()).split()
+           for k in readkey:
+             if k not in unique_keys and k != 'NULL' and k != '':
+                unique_keys.append(k)
+           writekey += (lines[i][8].strip()).split()
+           for k in writekey:
+             if k not in unique_keys and k != 'NULL' and k != '':
+                unique_keys.append(k)
+           rangekey += (lines[i][9].strip()).split()
+           for k in rangekey:
+             if k not in unique_keys and k != 'NULL' and k != '':
+                unique_keys.append(k)
 
-key_based_caseid(csv_path)
+    key_dependencies=[]
+    key_dependencies.append(['keys','number_of_dependencies'])
+    #print(unique_keys)
+    new_lines=[]
+    new_lines.append(["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "commit order", "case_id"])
+    for key in unique_keys:
+        numdependencies=0
+
+        for i in range(len(lines)):
+            if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != initfunc:
+               if (key != '') and (is_phrase_in(key, lines[i][7].strip()) or is_phrase_in(key, lines[i][8].strip()) or is_phrase_in(key, lines[i][9].strip())):
+                   lines[i][13]=key
+                   new_lines.append(lines[i])
+                   numdependencies+=1
+        key_dependencies.append([key,numdependencies])
+
+        #activity_name=[]
+        #for i in range(len(new_lines)):
+        #    if new_lines[i][3] not in activity_name:
+        #       activity_name.append(new_lines[i][3])
+        #for k in range(len(activity_name)):
+        #    case_id=1
+        #    for i in range(len(new_lines)):
+        #        if new_lines[i][3]==activity_name[k]:
+        #           new_lines[i][13]=case_id
+        #           case_id+=1
+
+        
+    writer = csv.writer(open('%s/keybasedcaseid_blockchainlog.csv' % (full_path), 'w'))
+    writer.writerows(new_lines)
+
+    writer = csv.writer(open('%s/key_dependencies.csv' % full_path, 'w'))
+    writer.writerows(key_dependencies)
+
+
+new_key_based_caseid(csv_path)
+#key_based_caseid(csv_path)
 activity_based_caseid(csv_path)
 
