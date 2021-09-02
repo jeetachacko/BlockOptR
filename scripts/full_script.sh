@@ -2,6 +2,7 @@
 set +ex
 
 chaincode=$1
+expnum=$2
 
 rm log_extraction/data/*
 
@@ -42,7 +43,7 @@ printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt 
 printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $14}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
 printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $16}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
 
-python3 metrics_evaluation/extractcalipermetrics.py $logdir
+python3 metrics_evaluation/extractcalipermetrics.py $logdir $expnum
 
 
 set -ex
