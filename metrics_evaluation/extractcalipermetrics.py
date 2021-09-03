@@ -22,7 +22,6 @@ def extractcaliperlogs():
     writer = csv.writer(open('%s/metricslog.csv' % full_path, 'w'))
     writer.writerow(["ExpNum", "Succ", "Fail","SendRate","Latency","Throughput","Duration","SuccThroughput","SuccRate"])
 
-
     cpath = full_path + '/tempmetricslog.csv'
     cfile = open(cpath)
     creader = csv.reader((x.replace('\0', '') for x in cfile), delimiter=',')
