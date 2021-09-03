@@ -13,13 +13,15 @@ import arrow
 from collections import Counter
 
 home_dir = "/home/ubuntu/BlockProM/log_store/"
-log_dir = ' '.join(sys.argv[1:])
+log_dir = str(sys.argv[1])
+exp_num = str(sys.argv[2])
 full_path = home_dir + log_dir + "/csv"
 
 def extractcaliperlogs():
     nwriter = csv.writer(open('%s/allmetricslog.csv' % home_dir, 'a'))
     writer = csv.writer(open('%s/metricslog.csv' % full_path, 'w'))
-    writer.writerow(["Succ", "Fail","SendRate","Latency","Throughput","Duration","SuccThroughput"])
+    writer.writerow(["ExpNum", "Succ", "Fail","SendRate","Latency","Throughput","Duration","SuccThroughput","SuccRate"])
+
 
     cpath = full_path + '/tempmetricslog.csv'
     cfile = open(cpath)
@@ -33,10 +35,10 @@ def extractcaliperlogs():
     throughput=(float(cnew_lines[0][8])+float(cnew_lines[0][9]))/2
     duration=(succ+fail)/throughput
     succthroughput=succ/duration
+    succrate=(succ/(succ+fail))*100
 
-    writer.writerow([succ,fail,sendrate,latency,throughput,duration,succthroughput])
-    nwriter.writerow([succ,fail,sendrate,latency,throughput,duration,succthroughput])
-
+    writer.writerow([exp_num,succ,fail,sendrate,latency,throughput,duration,succthroughput,succrate])
+    nwriter.writerow([exp_num,succ,fail,sendrate,latency,throughput,duration,succthroughput,succrate])
 
 extractcaliperlogs()
 
