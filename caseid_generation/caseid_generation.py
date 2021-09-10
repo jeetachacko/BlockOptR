@@ -9,6 +9,7 @@ import collections
 import re
 import csv
 import sys
+import numpy as np
 
 #the extract function is used from: 
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
@@ -148,7 +149,7 @@ def new_key_based_caseid(path):
             if i != 0 and lines[i][3] != 'NULL' and lines[i][3] != 'deploy' and lines[i][3] != initfunc:
                if (key != '') and (is_phrase_in(key, lines[i][7].strip()) or is_phrase_in(key, lines[i][8].strip()) or is_phrase_in(key, lines[i][9].strip())):
                    lines[i][13]=key
-                   new_lines.append(lines[i])
+                   new_lines.append(lines[i].copy())
                    numdependencies+=1
         key_dependencies.append([key,numdependencies])
 
@@ -171,7 +172,82 @@ def new_key_based_caseid(path):
     writer.writerows(key_dependencies)
 
 
+def new_activity_based_caseid(path):
+    unique_keys=[]
+    file = open(path)
+    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
+    lines = list(reader)
+    for i in range(1, len(lines)):
+        lines[i][13]=0
+
+    next_lines=[]
+    next_lines.append(lines[0].copy())
+    for i in range(1, len(lines)):
+        rangekeys=(lines[i][9].strip()).split()
+        if len(rangekeys) > 0:
+            for j in range(len(rangekeys)):
+                next_lines.append(lines[i].copy())
+                next_lines[-1][9]=rangekeys[j]
+
+        else:
+            next_lines.append(lines[i].copy())
+    
+    writer = csv.writer(open('%s/new_rangekeyssplit_blockchainlog.csv' % (full_path), 'w'))
+    writer.writerows(next_lines)
+
+    lines = []
+    new_path =full_path + "/new_rangekeyssplit_blockchainlog.csv"
+    file = open(new_path)
+    reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
+    lines = list(reader)
+    for i in range(1,len(lines)):
+        lines[i][13]=0
+        #if (lines[i][3] == 'pushASN') or (lines[i][3] == '') or (lines[i][3] == 'ship') or (lines[i][3] == 'unload') :
+        #    funcargs=(lines[i][4].strip()).split()
+        #    lines[i][14] = funcargs[0]
+
+    
+
+    new_lines=[]
+    new_lines.append(lines[0].copy())
+    caseid=1
+    for i in range(1, len(lines)):
+        activity_name=[]
+        if lines[i][13] == 0:
+            lines[i][13]=caseid
+            funcargs=(lines[i][4].strip()).split()
+            args = funcargs[0]
+            rangekey = lines[i][9]
+            activity_name.append(lines[i][3])
+            print(activity_name)
+            print(caseid)
+            for j in range((i+1), len(lines)):
+                if (lines[j][3] not in activity_name) and (lines[j][13] == 0):
+                    funcargsj=(lines[j][4].strip()).split()
+                    argsj = funcargsj[0]
+                    rangekeyj = lines[j][9]
+                    if lines[i][3] == 'queryASN':
+                        if (rangekey in argsj) or (rangekey in rangekeyj):
+                            lines[j][13]=caseid
+                            activity_name.append(lines[j][3])
+                            print('****')
+                            print(lines[j][3])
+                    elif (args in argsj) or (args in rangekeyj):
+                        print('****')
+                        print(lines[j][3])
+                        lines[j][13]=caseid
+                        activity_name.append(lines[j][3])
+            caseid+=1
+        new_lines.append(lines[i].copy())
+
+
+    writer = csv.writer(open('%s/new_activity_basedcaseid_blockchainlog.csv' % (full_path), 'w'))
+    writer.writerows(new_lines)
+
+
+
 new_key_based_caseid(csv_path)
+new_activity_based_caseid(csv_path)
 #key_based_caseid(csv_path)
-activity_based_caseid(csv_path)
+#activity_based_caseid(csv_path)
 
