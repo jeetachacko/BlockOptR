@@ -70,8 +70,11 @@ def scan_files(path):
     
         #reading one file
         with open(file_path) as json_file:
-            
-            json_data = json.load(json_file)
+           
+            try:
+                json_data = json.load(json_file)
+            except Exception:
+                pass
 
             #TIMESTAMP
             field_values=[]

@@ -7,6 +7,7 @@ kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf log_extraction"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf node_modules"
 kubectl cp log_extraction hlf-peer--org1--peer0-0:./
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "apk update"
+kubectl exec hlf-peer--org1--peer0-0 -- sh -c "apk add g++ make py3-pip"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "apk add npm"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "npm i fabric-client"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "node log_extraction/getBlockchainLogs.js"

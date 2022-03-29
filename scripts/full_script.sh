@@ -10,6 +10,7 @@ kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf log_extraction"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf node_modules"
 kubectl cp log_extraction hlf-peer--org1--peer0-0:./
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "apk update"
+kubectl exec hlf-peer--org1--peer0-0 -- sh -c "apk add g++ make py3-pip"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "apk add npm"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "npm i fabric-client"
 kubectl exec hlf-peer--org1--peer0-0 -- sh -c "node log_extraction/getBlockchainLogs.js"
@@ -19,10 +20,12 @@ kubectl exec hlf-peer--org1--peer0-0 -- sh -c "rm -rf node_modules"
 logdir=$(date +%Y%m%d_%H%M%S)
 mkdir -p log_store/$logdir
 #mkdir log_store/$logdir/json
-cp log_extraction/data/* log_store/$logdir
+mv log_extraction/data/* log_store/$logdir/
+rm log_extraction/data/*
 mkdir log_store/$logdir/csv
 mkdir log_store/$logdir/csv/keybased
 python3 convert_to_csv/convert_blockchain_logs_to_csv.py $logdir
+rm log_store/$logdir/*.json
 python3 caseid_generation/caseid_generation.py $logdir
 python3 metrics_evaluation/metrics_evaluation.py $logdir > log_store/$logdir/optimizationrecommendations.txt
 mkdir log_store/$logdir/configfiles
@@ -44,6 +47,6 @@ printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt 
 printf "%.2f," $(grep '| common' log_store/$logdir/configfiles/caliper_logs.txt | awk '{print $16}' | tail -n 2) >> log_store/$logdir/csv/tempmetricslog.csv
 
 python3 metrics_evaluation/extractcalipermetrics.py $logdir $expnum
-
+python3 metrics_evaluation/extractmetrics.py $logdir $expnum
 
 set -ex

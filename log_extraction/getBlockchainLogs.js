@@ -40,9 +40,16 @@ async function setClient() {
 				blockchainheight = blockchainheight|0;
 				for (let index = 0; index < blockchainheight; index++) {
     					var fileName = "./log_extraction/data/" + index + ".json";
+					var jsonstr = "";
+					try {
+						jsonstr = JSON.stringify((await channel.queryBlock(index)), null, 4)
+					}
+					catch(e) {
+						console.log("CAUGHT JSON LENGTH EXCEPTION")
+					}
     					fs.writeFile(
                           				fileName,
-			                                JSON.stringify((await channel.queryBlock(index)), null, 4),
+			                                jsonstr,
                   					function (err) {
                               						if (err) {
                                  						console.error('Saving BLOCK failed');

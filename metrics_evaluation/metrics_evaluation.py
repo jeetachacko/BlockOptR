@@ -341,7 +341,7 @@ def endorser_dist():
         if (int(cnew_lines[i][1]) > et1): 
             endorsers.append([cnew_lines[i][0], cnew_lines[i][1]])
         allendorsers.append([cnew_lines[i][0]])
-        print("All Endorsers:", cnew_lines[i][0],cnew_lines[i][1])
+        #print("All Endorsers:", cnew_lines[i][0],cnew_lines[i][1])
 
     if len(endorsers) < len(allendorsers):
         optcount += 1
@@ -442,6 +442,38 @@ def tx_reordering():
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Transaction reordering", reorderpairs_final])
 
+def processprune():
+    global n
+    global new_lines
+    global optcount
+    processnames=[]
+    pruneprocesslist=[]
+
+    for i in range(1, (len(new_lines)-1)):
+        processnames.append(new_lines[i][3])
+    uniqueprocessnames=set(processnames)
+    for pn in uniqueprocessnames:
+        txtype=[]
+        for i in range(1, (len(new_lines)-1)):
+            if new_lines[i][3] == pn:
+                if new_lines[i][10] != '':
+                    txtype.append(new_lines[i][10])
+        if len(set(txtype)) > 1:
+            pruneprocesslist.append([pn, set(txtype)])
+
+    if (len(pruneprocesslist) > 0):
+        optcount += 1
+        print()
+        print(optcount, "Optimization recommendation: Possibility of process model pruning")
+        print("Multiple transaction types detected for same process:")
+        print(pruneprocesslist)
+        print()
+        print("##########################################################################################")
+        writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
+        writer.writerow([optcount, "Process model pruning possibility", pruneprocesslist])
+
+
+
 
 def deltawrites():
     global n
@@ -453,8 +485,9 @@ def deltawrites():
     cnew_lines = list(creader)
 
     deltatx=[]
-    for i in range(len(cnew_lines)):
-        if ((i != 0) and len(cnew_lines[i][8].split()) == 1):
+    for i in range(len(cnew_lines)-1):
+        #if ((i != 0) and len(cnew_lines[i][8].split()) == 1):
+        if ((i != 0) and (len(cnew_lines[i][8].split()) == 1) and ((int(cnew_lines[i][8]) == int(cnew_lines[i+1][8])) or ((int(cnew_lines[i][8])+1) == int(cnew_lines[i+1][8])))):
             deltatx.append(cnew_lines[i][6])
 
     deltatx_final=set(deltatx)
@@ -538,8 +571,8 @@ def blocksize_opt():
 
     avgtxrate = round(total/count)
 
-    print("avgtxrate", avgtxrate)
-    print("actualbs", actualbs)
+    #print("avgtxrate", avgtxrate)
+    #print("actualbs", actualbs)
     if (avgtxrate > (actualbs*bst1)) or (avgtxrate < (actualbs*bst2)):
         optcount += 1
         print()
@@ -564,21 +597,25 @@ def splitbatch_chaincodes():
     ht1 = 3
     hotkey = cnew_lines[1][0]
     hotkeyfreq = float(cnew_lines[1][1])
-    print("hotkeyfreq",hotkeyfreq)
-    print("ht0",ht0)
+    #print("hotkeyfreq",hotkeyfreq)
+    #print("ht0",ht0)
+    #len(set)
     if (hotkeyfreq > ht0):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Hot keys have been detected")
-        print("The top", ht1, "hotkeys are shown below along with the transactions that use them.")
-        print("Spliting chaincodes or batching withing the chaincodes are possible optimizations to avoid conflicts:")
+        print(optcount, "Hot keys have been detected")
+        print("The top", ht1, "hotkeys are shown below along with the type of smart contract optimization possible.")
+        #print("Spliting chaincodes or batching within the chaincodes are possible optimizations to avoid conflicts:")
         print()
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Hot key detection", hotkey])
-    for i in range(1, ht1+1):
-        txnames=set(cnew_lines[i][2].split())
-        print(i, "Key:", cnew_lines[i][0], "Frequency:", cnew_lines[i][1], "Transactions:", txnames)
-
+        for i in range(1, ht1+1):
+            txnames=set(cnew_lines[i][2].split())
+            print(i, "Key:", cnew_lines[i][0], "Frequency:", cnew_lines[i][1], "Transactions:", txnames)
+            if len(txnames) == 1:
+                print("Optimization recommendation: Redesign the data model related to the activity", txnames, "to avoid conflicts")
+            else:
+                print("Optimization recommendation: Spliting chaincodes or batching within the chaincodes are possible optimizations to avoid conflicts for the activities:",txnames)
     print()
     print("##########################################################################################")
 
@@ -604,6 +641,7 @@ def rate_control():
         print()
         print(optcount, "Optimization recommendation: Possibility of rate control optimization detected")
         print("The following intervals have high failure rate and transaction rate. Consider rate control if such occurences are frequent")
+        print("If the mined process model has a low fitness with the ideal process model, transaction rate control will help increase fitness")
         for i in range(len(intervals)):
             print(intervals[i])
         print()
@@ -623,18 +661,19 @@ endorser_sig()
 key_sig()
 datavalue_correlation()
 rate_distribution() #transactionrate, failurerate of each failure, activity failure rate, activity transaction rate
+
 ##blocksize()
 ##transactiontype_correlation()
 ##proximity_correlation()
 
 #Optimization strategies
-client_dist()
+##client_dist()
 endorser_dist()
 blocksize_opt()
-read_tx_batch()
+##read_tx_batch()
 rate_control()
 tx_reordering()
 deltawrites()
 splitbatch_chaincodes()
-
+processprune()
 

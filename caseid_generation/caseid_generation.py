@@ -178,8 +178,8 @@ def new_activity_based_caseid(path):
 
     #Edit this part of the code based on the use case
     #################################################
-    #0=SCM;1=DRM;2=DV;3=EHR; 4=LAP
-    usecase=0
+    #0=SCM;1=DRM;2=DV;3=EHR; 4=LAP; 5=SSCM
+    usecase=5
 
     unique_keys=[]
     file = open(path)
@@ -217,7 +217,6 @@ def new_activity_based_caseid(path):
 
             else:
                 next_lines.append(lines[i].copy())
-
     else:
         for i in range(len(lines)):
             rangekeys=(lines[i][9].strip()).split()
@@ -246,10 +245,21 @@ def new_activity_based_caseid(path):
         #Edit this part of the code based on the use case
         #################################################
 
-        #0=SCM;1=DRM;2=DV;3=EHR
+        #0=SCM;1=DRM;2=DV;3=EHR; 5=SSCM
 
         #################################################
+        #0. SSCM
+        if usecase==5:
+            if (lines[i][3] == 'QueryProducts'):
+                rangekey=lines[i][9]
+                lines[i][14] = rangekey
+            else:
+                funcargs=(lines[i][4].strip()).split()
+                lines[i][14] = funcargs[0]
+        #################################################
         #0. SCM
+        #################################################
+    
         if usecase==0:
             if (lines[i][3] == 'pushASN') or (lines[i][3] == 'queryLogisticUnit') or (lines[i][3] == 'ship') or (lines[i][3] == 'unload') :
                 funcargs=(lines[i][4].strip()).split()
