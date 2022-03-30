@@ -487,8 +487,11 @@ def deltawrites():
     deltatx=[]
     for i in range(len(cnew_lines)-1):
         #if ((i != 0) and len(cnew_lines[i][8].split()) == 1):
-        if ((i != 0) and (len(cnew_lines[i][8].split()) == 1) and ((int(cnew_lines[i][8]) == int(cnew_lines[i+1][8])) or ((int(cnew_lines[i][8])+1) == int(cnew_lines[i+1][8])))):
-            deltatx.append(cnew_lines[i][6])
+        if (cnew_lines[i][8].isdigit()):
+        
+            if ((i != 0) and (len(cnew_lines[i][8].split()) == 1) and ((int(cnew_lines[i][8]) == int(cnew_lines[i+1][8])) or ((int(cnew_lines[i][8])+1) == int(cnew_lines[i+1][8])))):
+            
+                deltatx.append(cnew_lines[i][6])
 
     deltatx_final=set(deltatx)
     counts = Counter(deltatx)
