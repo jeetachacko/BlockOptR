@@ -10,6 +10,8 @@ rm log_extraction/data/*
 rm -rf log_store/*
 
 cd /home/ubuntu/go/src/github.com/hyperledger/fabric/fastfabric/scripts/client
+source /home/ubuntu/go/src/github.com/hyperledger/fabric/fastfabric/scripts/base_parameters.sh
+source /home/ubuntu/go/src/github.com/hyperledger/fabric/fastfabric/scripts/custom_parameters.sh
 node getBlockchainLogs.js
 mv /home/ubuntu/go/src/github.com/hyperledger/fabric/fastfabric/scripts/client/data/* /home/ubuntu/BlockProM/log_extraction/data/
 cd /home/ubuntu/BlockProM
