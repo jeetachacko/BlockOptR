@@ -670,7 +670,7 @@ rate_distribution() #transactionrate, failurerate of each failure, activity fail
 ##proximity_correlation()
 
 #Optimization strategies
-##client_dist()
+client_dist()
 endorser_dist()
 blocksize_opt()
 ##read_tx_batch()
