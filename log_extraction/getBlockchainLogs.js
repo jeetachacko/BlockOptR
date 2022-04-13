@@ -1,9 +1,12 @@
+
+//TODO: Automate these steps.
 /*
-TODO: Automate these steps.
+Execute the following steps before running this script:
 
-1. cp /home/ubuntu/hyperledgerlab2/caliper/caliper-config/templates/networkConfig.yaml /home/ubuntu/BlockProM/log_extraction/connectionprofile.yaml
+1. Create/Copy/Edit the connectionprofile.yaml to match the Fabric network configuration. For example:  
+cp /home/ubuntu/hyperledgerlab2/caliper/caliper-config/templates/networkConfig.yaml /home/ubuntu/BlockOptR/log_extraction/connectionprofile.yaml
 
-2. edit connectionprofile.yaml such that there is only one client as shown below:
+2. Edit connectionprofile.yaml such that there is only one client as shown below:
 client:
       organization: Org1
       credentialStore:
@@ -11,9 +14,9 @@ client:
         cryptoStore:
           path: /tmp/1615470564-crypto/org1
       clientPrivateKey:
-        path: /home/ubuntu/HyperLedgerLab/inventory/blockchain/fabric-config/crypto-config/peerOrganizations/org1/users/User1@org1/msp/keystore/priv_sk
+        path: /home/ubuntu/hyperledgerlab2/inventory/blockchain/fabric-config/crypto-config/peerOrganizations/org1/users/User1@org1/msp/keystore/priv_sk
       clientSignedCert:
-        path: /home/ubuntu/HyperLedgerLab/inventory/blockchain/fabric-config/crypto-config/peerOrganizations/org1/users/User1@org1/msp/signcerts/User1@org1-cert.pem
+        path: /home/ubuntu/hyperledgerlab2/inventory/blockchain/fabric-config/crypto-config/peerOrganizations/org1/users/User1@org1/msp/signcerts/User1@org1-cert.pem
 	
 	
 3. mkdir data if it does not exist. rm data/* if it exists.
@@ -38,15 +41,18 @@ async function setClient() {
 				let blockchaininfo = await channel.queryInfo();
 				let blockchainheight = blockchaininfo.height;
 				blockchainheight = blockchainheight|0;
+				//The complete blockchain is parsed
 				for (let index = 0; index < blockchainheight; index++) {
     					var fileName = "./log_extraction/data/" + index + ".json";
 					var jsonstr = "";
 					try {
+						//Blocks are queried from the blockchain
 						jsonstr = JSON.stringify((await channel.queryBlock(index)), null, 4)
 					}
 					catch(e) {
 						console.log("CAUGHT JSON LENGTH EXCEPTION")
 					}
+					//Blocks are written to the filesystem
     					fs.writeFile(
                           				fileName,
 			                                jsonstr,
