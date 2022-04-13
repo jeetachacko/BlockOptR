@@ -13,10 +13,10 @@ import sys
 #the extract function is used from: 
 #https://hackersandslackers.com/extract-data-from-complex-json-python/
 
-#fields contains the keys in json file which will be extracted
+#fields contains the keys in json file which will be extracted. Extend this array if you want to extract other keys.
 fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "commit order", "case_id"]
 
-home_dir = "/home/ubuntu/BlockProM/log_store/"
+home_dir = "/home/ubuntu/BlockOptR/log_store/"
 log_dir = ' '.join(sys.argv[1:])
 full_path = home_dir + log_dir + "/csv"
 
