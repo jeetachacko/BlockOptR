@@ -50,6 +50,7 @@ def __datetime(date_str):
     return datetime.strptime(date_str, '%a-%b-%d%T%H:%M:%S%Z')
     #2021-07-13T10:19:51.987Z
 
+#Metrics1: Rate metrics
 def rate_metrics():
     writer = csv.writer(open('%s/ratemetrics.csv' % full_path, 'w'))
     writer.writerow(["Metrics", "Variable_Name","Value"])
@@ -69,6 +70,7 @@ def rate_metrics():
     writer.writerow(["Total number of transactions", "n",str(n)])
     writer.writerow(["Transaction rate", "Tr",str(Tr)])
 
+#Metrics2: Failure metrics
 def failure_metrics():
 
     writer = csv.writer(open('%s/failuremetrics.csv' % full_path, 'w'))
@@ -107,7 +109,7 @@ def failure_metrics():
     writer.writerow(["Phantom read conflict percent", "PRCp",str((nPRC/n)*100)])
 
     print()
-    print(optcount, "Optimization recommendation: Implement all optimizations based on the number of transaction failures as listed below")
+    print(optcount, "Optimization recommendation: Implement all optimizations based on the number of transaction failures as listed below. If failure rate is very low then it may not be necessary to implement the recommendations")
     print("Total number of transactions:", (len(new_lines) - 1))
     print("Total Failures:", nf)
     print("MVCC read conflict:", nMRC)
@@ -116,7 +118,7 @@ def failure_metrics():
     print()
     print("##########################################################################################")
 
-
+#Metrics1.1: Rate distribution
 def rate_distribution():
     #Total number of transactions in the log
     global n
@@ -172,7 +174,7 @@ def rate_distribution():
             if (i+1) < len(new_lines):
                 begin_time = arrow.get(new_lines[i+1][0]).datetime
 
-
+#Metrics3: Invoker significance 
 def originator_sig():
 
     global new_lines
@@ -195,6 +197,7 @@ def originator_sig():
     ogrows_sort = sorted(ogrows,key=lambda l:l[1], reverse=True)
     writer.writerows(ogrows_sort)
 
+#Metrics4: Endorser significance
 def endorser_sig():
 
     global new_lines
@@ -220,7 +223,7 @@ def endorser_sig():
     writer.writerows(edrows_sort)
 
 
-
+#Metrics5: Key frequency and key significance
 def key_sig():
     writer = csv.writer(open('%s/key_significance.csv' % full_path, 'w'))
     writer.writerow(['Keys','Ksig','activity_names'])
@@ -257,6 +260,7 @@ def key_sig():
     key_dependencies_sort = sorted(key_dependencies,key=lambda l:l[1], reverse=True)
     writer.writerows(key_dependencies_sort)
 
+#Metrics6: Data value correlation
 def datavalue_correlation():
 
     cpath = full_path + '/commitorder_cleanlog.csv'
@@ -296,7 +300,7 @@ def datavalue_correlation():
 
     writer.writerows(dv)
 
-
+#Recommendation1: Client resource boost
 def client_dist():
     global n
     global optcount
@@ -316,12 +320,13 @@ def client_dist():
     if ntx > ct1:
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Redistribute clients because client bottleneck was detected")
+        print(optcount, "Optimization recommendation: Client resource boost")
         print(ntx," transactions out of", n," transactions were send by the clients:", clients)
         print()
         print("##########################################################################################")
     
 
+#Recommendation2: Endorser restructuring
 def endorser_dist():
     global n
     global optcount
@@ -346,7 +351,7 @@ def endorser_dist():
     if len(endorsers) < len(allendorsers):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Redefine endorsement policy because endorser bottleneck was detected")
+        print(optcount, "Optimization recommendation: Endorser restructuring")
         print("More than", et1, "transactions out of", n, "transactions were endorsed by the set of endorsers:", endorsers)
         print("Try to distribute the endorsements equally among all the endorsers", allendorsers)
         print()
@@ -354,6 +359,7 @@ def endorser_dist():
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Endorsement policy optimization", endorsers])
 
+#Unused function
 def read_tx_batch():
     global n
     global new_lines
@@ -390,6 +396,7 @@ def read_tx_batch():
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Read transaction batching", rt_fail_tx_final])
 
+#Recommendation3: Activity reordering        
 def tx_reordering():
     global n
     global new_lines
@@ -432,7 +439,7 @@ def tx_reordering():
     if (len(reorderpairs) > 0):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Reordering possibilities detected")
+        print(optcount, "Optimization recommendation: Activity reordering")
         print("The following pairs of transactions can be reordered (reverse the order) to avoid conflicts:")
         print(reorderpairs_final)
         print("The number of conflicts for each pair is as follows:")
@@ -442,6 +449,7 @@ def tx_reordering():
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Transaction reordering", reorderpairs_final])
 
+#Recommendation4: Process Model Pruning
 def processprune():
     global n
     global new_lines
@@ -464,7 +472,7 @@ def processprune():
     if (len(pruneprocesslist) > 0):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Possibility of process model pruning")
+        print(optcount, "Optimization recommendation: Process model pruning")
         print("Multiple transaction types detected for same process:")
         print(pruneprocesslist)
         print()
@@ -474,7 +482,7 @@ def processprune():
 
 
 
-
+#Recommendation5: Delta writes
 def deltawrites():
     global n
     global new_lines
@@ -499,7 +507,7 @@ def deltawrites():
     if (len(deltatx) > 0):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Possibility of delta writes detected")
+        print(optcount, "Optimization recommendation: Delta writes")
         print("The following transactions contain writes to a single key and could be converted to delta writes to avoid conflicts:")
         print(deltatx_final)
         print("The number of conflicts caused by each transaction is as follows:")
@@ -509,6 +517,7 @@ def deltawrites():
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Delta-writes possibility", deltatx_final])
 
+#Recommendation6: Block size adaptation
 def blocksize_opt():
     global optcount
     bst1 = 1.6 #60% increase
@@ -579,7 +588,7 @@ def blocksize_opt():
     if (avgtxrate > (actualbs*bst1)) or (avgtxrate < (actualbs*bst2)):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Possibility of block size optimization detected")
+        print(optcount, "Optimization recommendation: Block size adaptation")
         print("The average actual blocksize is", actualbs, "the configured block size is", configbs, "and the average transaction rate is", avgtxrate)
         print("Matching the block size to the average transaction rate might lead to better performance. ")
         print()
@@ -587,6 +596,7 @@ def blocksize_opt():
         writer = csv.writer(open('%s/optrecs.csv' % full_path, 'a'))
         writer.writerow([optcount, "Block size optimization", avgtxrate])
 
+#Recommendation 7 and 8: Smart contract partitioning and Data model alteration
 def splitbatch_chaincodes():
     global optcount
     global n
@@ -616,12 +626,13 @@ def splitbatch_chaincodes():
             txnames=set(cnew_lines[i][2].split())
             print(i, "Key:", cnew_lines[i][0], "Frequency:", cnew_lines[i][1], "Transactions:", txnames)
             if len(txnames) == 1:
-                print("Optimization recommendation: Redesign the data model related to the activity", txnames, "to avoid conflicts")
+                print("Optimization recommendation: Data model alteration for the activity", txnames, "to avoid conflicts")
             else:
-                print("Optimization recommendation: Spliting chaincodes or batching within the chaincodes are possible optimizations to avoid conflicts for the activities:",txnames)
+                print("Optimization recommendation: Smart contract partitioning or batching within the chaincodes are possible optimizations to avoid conflicts for the activities:",txnames)
     print()
     print("##########################################################################################")
 
+#Recommendation9: Transaction rate control
 def rate_control():
     global optcount
     cpath = full_path + '/rate_distribution.csv'
@@ -642,7 +653,7 @@ def rate_control():
     if (len(intervals) > 1):
         optcount += 1
         print()
-        print(optcount, "Optimization recommendation: Possibility of rate control optimization detected")
+        print(optcount, "Optimization recommendation: Transaction rate control")
         print("The following intervals have high failure rate and transaction rate. Consider rate control if such occurences are frequent")
         print("If the mined process model has a low fitness with the ideal process model, transaction rate control will help increase fitness")
         for i in range(len(intervals)):
