@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set +ex
 
+#This script assumes that the Fabric network was setup with HyperledgerLab2 testbed. Modifiy this script accordingly to match other deployments of Fabric
+
 chaincode=$1
 expnum=$2
 
