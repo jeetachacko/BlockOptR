@@ -1,0 +1,16 @@
+{
+  "name": "supplychain_benchmark",
+  "version": "1.0.0",
+  "description": "Package to support benchmark testing with a supplychain application",
+  "author": "Luca A. Mueller",
+  "license": "ISC",
+  "dependencies": {
+    "deck": "0.0.4",
+    "fabric-contract-api": "2.2.1",
+    "fabric-shim": "2.2.1",
+    "random-picker": "1.0.0",
+    "read-yaml": "1.1.0",
+    "unirand": "2.4.5",
+    "zipfian-integer": "1.0.1"
+  }
+}

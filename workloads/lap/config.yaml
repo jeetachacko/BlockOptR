@@ -1,0 +1,15 @@
+test:
+  workers:
+    type: local
+    number: 10
+
+  rounds:
+    - label: common
+      txNumber: 10000
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 300
+      workload:
+        module: /caliper-workload/common.js
+

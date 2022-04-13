@@ -1,0 +1,78 @@
+
+test:
+  workers:
+    type: local
+    number: 10
+
+  rounds:
+    - label: initLedger
+      txNumber: 1
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 1
+      workload:
+        module: /caliper-workload/initLedger.js
+
+    - label: delay
+      txDuration: 20
+      rateControl:
+          type: zero-rate
+          opts:
+            tps:
+      workload:
+        module: /caliper-workload/common1.js
+
+    - label: common
+      txNumber: 100
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 10
+      workload:
+        module: /caliper-workload/common1.js
+
+    - label: delay
+      txDuration: 20
+      rateControl:
+          type: zero-rate
+          opts:
+            tps:
+      workload:
+        module: /caliper-workload/common1.js
+
+    - label: common
+      txNumber: 1000
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 300
+      workload:
+        module: /caliper-workload/common2.js
+
+    - label: delay
+      txDuration: 120
+      rateControl:
+          type: zero-rate
+          opts:
+            tps:
+      workload:
+        module: /caliper-workload/common1.js
+
+    - label: closeElection 
+      txNumber: 1
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 1
+      workload:
+        module: /caliper-workload/closeElection.js
+    
+    - label: seeResults
+      txNumber: 1
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 1
+      workload:
+        module: /caliper-workload/seeResults.js

@@ -1,0 +1,32 @@
+test:
+  workers:
+    type: local
+    number: 10
+  rounds:
+    - label: initLedger 
+      txNumber: 1
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 1
+      workload:
+        module: /caliper-workload/initLedger.js
+
+    - label: common
+      txNumber: 5000
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 100
+      workload:
+        module: /caliper-workload/common2.js
+
+    - label: common
+      txNumber: 5000
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 100
+      workload:
+        module: /caliper-workload/common1.js
+

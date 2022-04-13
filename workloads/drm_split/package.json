@@ -1,0 +1,26 @@
+{
+	"name": "drm",
+	"version": "1.0.0",
+	"description": "Package to support benchmark testing with a drm application",
+	"main": "index.js",
+	"engineStrict": true,
+	"engines": {
+		"node": ">=10",
+		"npm": ">=6"
+	},
+	"scripts": {
+		"start": "fabric-chaincode-node start"
+	},
+	"engine-strict": true,
+	"license": "Apache-2.0",
+	"dependencies": {
+		"fabric-contract-api": "2.1.0",
+		"deck": "0.0.4",
+    		"random-picker": "1.0.0",
+    		"read-yaml": "1.1.0",
+    		"unirand": "^2.4.5",
+    		"zipfian-integer": "1.0.1",
+		"fabric-shim": "2.1.0"
+	}
+}
+
