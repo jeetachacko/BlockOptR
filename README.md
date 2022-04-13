@@ -17,7 +17,9 @@ An optimization recommender tool for blockchains (Hyperledger Fabric).
 
 # Additional details
 [Blockchain Extraction Script](log_extraction/getBlockchainLogs.js)
+
 **Input:** [connectionProfile](log_extraction/connectionprofile.yaml)
+
 **Output:** log_extraction/data/<multiple json files>
 
 [Data Preprocessing Script](convert_to_csv/convert_blockchain_logs_to_csv.py)  
