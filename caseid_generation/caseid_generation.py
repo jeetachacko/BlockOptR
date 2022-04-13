@@ -17,7 +17,7 @@ import numpy as np
 #fields contains the keys in json file which will be extracted
 fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "block number", "commit order", "case_id"]
 
-home_dir = "/home/ubuntu/BlockProM/log_store/"
+home_dir = "/home/ubuntu/BlockOptR/log_store/"
 log_dir = ' '.join(sys.argv[1:])
 #log_dir = str(sys.argv[1])
 #usecase = str(sys.argv[2])
@@ -29,11 +29,13 @@ csv_path =full_path + "/clean_blockchainlog.csv"
 
 file_dir=home_dir + log_dir
 
+#Replace this with the name of the init function of the specific use case
 initfunc='InitLedger'
 
 def is_phrase_in(phrase, text):
     return re.search(r"\b{}\b".format(phrase), text, re.IGNORECASE) is not None
 
+#Unused function
 def activity_based_caseid(path):
     file = open(path)
     reader = csv.reader((x.replace('\0', '') for x in file), delimiter=',')
@@ -56,7 +58,7 @@ def activity_based_caseid(path):
     writer = csv.writer(open('%s/activity_based_caseid_blockchainlog.csv' % full_path, 'w'))
     writer.writerows(new_lines)
 
-
+#Unused function
 def key_based_caseid(path):
     unique_keys=[]
     file = open(path)
@@ -113,7 +115,7 @@ def key_based_caseid(path):
     writer = csv.writer(open('%s/key_dependencies.csv' % full_path, 'w'))
     writer.writerows(key_dependencies)
 
- 
+ #Unused function
 def new_key_based_caseid(path):
     unique_keys=[]
     file = open(path)
@@ -173,7 +175,7 @@ def new_key_based_caseid(path):
     writer = csv.writer(open('%s/key_dependencies.csv' % full_path, 'w'))
     writer.writerows(key_dependencies)
 
-
+#The main case id and event log generation function
 def new_activity_based_caseid(path):
 
     #Edit this part of the code based on the use case
@@ -201,7 +203,7 @@ def new_activity_based_caseid(path):
         #Edit this part of the code based on the use case
         #################################################
 
-        #0=SCM;1=DRM;2=DV;3=EHR
+        #0=SCM;1=DRM;2=DV;3=EHR; 5=SSCM
 
 
     if usecase==1:
@@ -248,7 +250,7 @@ def new_activity_based_caseid(path):
         #0=SCM;1=DRM;2=DV;3=EHR; 5=SSCM
 
         #################################################
-        #0. SSCM
+        #5. SSCM
         if usecase==5:
             if (lines[i][3] == 'QueryProducts'):
                 rangekey=lines[i][9]
