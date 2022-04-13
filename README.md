@@ -46,6 +46,6 @@ An optimization recommender tool for blockchains (Hyperledger Fabric).
       - rate_distribution.csv
       - key_significance.csv
 
-**NOTE 1: All scripts assume the deployment of Fabric using the [HyperledgerLab2](https://github.com/MSRG/HyperLedgerLab-2.0) testbed. Modify the scripts accordingly to match other deployments of Fabric**  
+**NOTE 1: The [full_script](scripts/full_script.sh) assumes the deployment of Fabric using the [HyperledgerLab2](https://github.com/MSRG/HyperLedgerLab-2.0) testbed. Modify the script accordingly to match other deployments of Fabric**  
 
 **NOTE 2: The smart contracts (chaincodes) and workloads to integrate with the [HyperledgerLab2](https://github.com/MSRG/HyperLedgerLab-2.0) testbed can be found in the [chaincodes](chaincodes) and [workloads](workloads) folders**
