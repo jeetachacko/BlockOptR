@@ -12,3 +12,5 @@ An optimization recommender tool for blockchains (Hyperledger Fabric).
 2. Attributes are extracted/derived and a clean log is created in csv format : [Data Preprocessing Script](convert_to_csv/convert_blockchain_logs_to_csv.py)
 3. CaseIDs and event log is generated : [CaseID/EventLog Generation Script](caseid_generation/caseid_generation.py) NOTE: Edit this script for new use-cases
 4. Blockchain-specific metrics and optimization recommendations are derived : [Metrics/Recommendation Generation Script](metrics_evaluation/metrics_evaluation.py)
+
+# NOTE: All scripts assume the deployment of Fabric using the HyperledgerLab2 testbed. Modify the scripts accordingly to match other deployments of Fabric
