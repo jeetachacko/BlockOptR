@@ -14,3 +14,36 @@ An optimization recommender tool for blockchains (Hyperledger Fabric).
 4. Blockchain-specific metrics and optimization recommendations are derived : [Metrics/Recommendation Generation Script](metrics_evaluation/metrics_evaluation.py)
 
 **NOTE: All scripts assume the deployment of Fabric using the HyperledgerLab2 testbed. Modify the scripts accordingly to match other deployments of Fabric**
+
+# Additional details
+[Blockchain Extraction Script](log_extraction/getBlockchainLogs.js)
+**Input:** [connectionProfile](log_extraction/connectionprofile.yaml)
+**Output:** log_extraction/data/<multiple json files>
+
+[Data Preprocessing Script](convert_to_csv/convert_blockchain_logs_to_csv.py)
+**Input:** log_extraction/data/<multiple json files>
+**Output:** log_store/<autogen directory name>/csv/<multiple csv files>
+            main_blockchainlog.csv
+            clean_blockchainlog.csv
+            commitorder_cleanlog.csv
+            csvblockchain.csv
+            actual_blocksize.csv
+            config_blocksize.csv
+
+[CaseID/EventLog Generation Script](caseid_generation/caseid_generation.py)
+**Input:** log_store/<autogen directory name>/csv/clean_blockchainlog.csv
+**Output:** log_store/<autogen directory name>/csv/new_activity_basedcaseid_blockchainlog.csv
+
+[Metrics/Recommendation Generation Script](metrics_evaluation/metrics_evaluation.py)
+**Input:** log_store/<autogen directory name>/csv/<multiple csv files>
+              clean_blockchainlog.csv
+              commitorder_cleanlog.csv
+              actual_blocksize.csv
+              config_blocksize.csv
+**Output:** log_store/<autogen directory name>/csv/<multiple csv files>
+              originator_significance.csv
+              endorser_significance.csv
+              datavalue_correlation.csv
+              failuremetrics.csv
+              rate_distribution.csv
+              key_significance.csv
