@@ -1,0 +1,2 @@
+ExpNum,SendRate,Latency,Throughput,Duration,TotalNumTxs,Succ,SuccThroughput,SuccPercent,Fail,FailPercent,Mvcc,EndorseFail,PhantomReads
+1,100.2,1.56,98.1,101.93679918450562,10000.0,7036.0,69.02315999999999,70.36,2964.0,29.64,2811.0,153.0,0.0
