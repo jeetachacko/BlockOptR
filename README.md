@@ -1,5 +1,5 @@
 # General Information
-This repository is created to share the research artifacts for a corresponding conference paper submission. It contains the BlockOptR source code (see description below), [smart contracts](chaincodes), [workload generation scripts](workloads), and [experimental results](syntheticworkload_results). The smart contracts and workloads can be used with the HyperledgerLab2 testbed.
+This repository is created to share the research artifacts for a corresponding conference paper submission. It contains the BlockOptR source code (see description below), [smart contracts](chaincodes), [workload generation scripts](workloads), and [experimental results](results). The smart contracts and workloads can be used with the HyperledgerLab2 testbed.
 
 # BlockOptR
 An optimization recommender tool for blockchains (Hyperledger Fabric).
