@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "fabric-client": "1.4.14"
+    "fabric-client": "1.4.20"
   }
 }
 
