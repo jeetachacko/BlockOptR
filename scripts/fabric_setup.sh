@@ -31,3 +31,5 @@ cd ./fabric-samples/test-network
 sleep 10s
 
 set +x
+
+mv ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/* ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/key_sk

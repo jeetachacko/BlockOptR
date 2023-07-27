@@ -21,10 +21,14 @@ if [ "$2" == "javascript" ] ; then
 fi
 
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 cd  ~/BlockOptR/workloads/$CHAINCODE_NAME
 npm install
 
 cd  ~/BlockOptR
-npx caliper launch manager --caliper-workspace ./ --caliper-networkconfig log_extraction/connectionprofile.yaml --caliper-benchconfig workloads/$CHAINCODE_NAME/config.yaml --caliper-flow-only-test --caliper-fabric-gateway-enabled --caliper-fabric-timeout-invokeorquery 110
+npx caliper launch manager --caliper-workspace ./ --caliper-networkconfig networks/networkConfig.yaml --caliper-benchconfig workloads/$CHAINCODE_NAME/config.yaml --caliper-flow-only-test --caliper-fabric-gateway-enabled --caliper-fabric-timeout-invokeorquery 110
 
 set +x

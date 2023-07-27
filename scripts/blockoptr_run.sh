@@ -2,6 +2,10 @@
 
 rm -rf log_store
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 node log_extraction/getBlockchainLogs.js
 logdir=$(date +%Y%m%d_%H%M%S)
 mkdir -p log_store/$logdir

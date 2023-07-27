@@ -21,7 +21,7 @@ client:
     cryptoStore:
       path: /tmp/hfc-cvs/org1
   clientPrivateKey:
-    path: ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/190e92beaa38e3460ed733adbd75219723b0aaf7a46353e401b5ea04a78976eb_sk
+    path: ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/key_sk
   clientSignedCert:
     path: ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem
   
@@ -34,7 +34,7 @@ organizations:
     certificateAuthorities:
       - ca.org1.example.com
     adminPrivateKey:
-      path: ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/190e92beaa38e3460ed733adbd75219723b0aaf7a46353e401b5ea04a78976eb_sk
+      path: ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/key_sk
     signedCert:
       path: ./fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem
   
