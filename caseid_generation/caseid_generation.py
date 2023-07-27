@@ -191,7 +191,7 @@ def new_activity_based_caseid(path):
     lines = list(reader)
     for row in lines:
         row.append('0')
-    print(headers)
+    #print(headers)
     for i in range(len(lines)):
         lines[i][13]=0
 

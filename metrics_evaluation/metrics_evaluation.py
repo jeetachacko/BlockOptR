@@ -17,7 +17,7 @@ from collections import Counter
 #fields contains the keys in json file which will be extracted
 fields = ["timestamp","tx_id","Mspid", "activity_name", "function_args", "endorsers_id", "tx_status", "readkeys", "writekeys", "rangekeys", "transaction_type", "commit order", "case_id"]
 
-home_dir = "/home/ubuntu/BlockProM/log_store/"
+home_dir = "./log_store/"
 log_dir = ' '.join(sys.argv[1:])
 full_path = home_dir + log_dir + "/csv"
 

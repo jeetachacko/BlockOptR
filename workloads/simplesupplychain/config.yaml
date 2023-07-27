@@ -1,7 +1,7 @@
 test:
   workers:
     type: local
-    number: 10
+    number: 5
   rounds:
     - label: InitLedger
       txNumber: 1
@@ -10,13 +10,13 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/InitLedger.js
+        module: ./workloads/simplesupplychain/InitLedger.js
 
     - label: common
-      txNumber: 10000
+      txNumber: 1000
       rateControl:
           type: fixed-rate
           opts:
-            tps: 300
+            tps: 100
       workload:
-        module: /caliper-workload/common.js
+        module: ./workloads/simplesupplychain/common.js
