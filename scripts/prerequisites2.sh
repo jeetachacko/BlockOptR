@@ -1,3 +1,5 @@
+sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
+
 sudo apt update
 
 #Install docker compose
@@ -21,7 +23,8 @@ echo "export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin" >> ~/.bashrc
 source ~/.bashrc
 source ~/.profile
 
-sudo apt-get update
+sudo apt update
+
 yes Y | sudo apt-get install build-essential openssl libssl-dev pkg-config
 
 yes Y | sudo apt-get install jq
