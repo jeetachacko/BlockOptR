@@ -22,11 +22,11 @@ source ~/.bashrc
 source ~/.profile
 
 sudo apt-get update
-sudo apt-get install build-essential openssl libssl-dev pkg-config
+yes Y | sudo apt-get install build-essential openssl libssl-dev pkg-config
 
-sudo apt-get install jq
+yes Y | sudo apt-get install jq
 
-sudo apt install python3-pip
+yes Y | sudo apt install python3-pip
 pip3 install numpy
 pip3 install arrow
 
@@ -41,9 +41,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-nvm list-remote
 nvm install v18.16.0
-nvm list
 nvm use v18.16.0
 
 mkdir log_extraction/data
@@ -53,5 +51,6 @@ curl -sSL https://bit.ly/2ysbOFE | bash -s
 
 npm i fabric-client
 
+#install caliper
 npm install --only=prod @hyperledger/caliper-cli@0.5.0
 npx caliper bind --caliper-bind-sut fabric:2.2
