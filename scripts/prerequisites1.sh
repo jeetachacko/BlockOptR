@@ -9,7 +9,3 @@ sudo apt update
 apt-cache search docker-ce
 yes Y | sudo apt install docker-ce
 
-sudo usermod -aG docker ${USER}
-sudo passwd ubuntu
-su - ${USER}
-id -nG
