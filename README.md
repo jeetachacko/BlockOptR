@@ -44,7 +44,7 @@ Run BlockOptR - Optimization recommendations will be printed on the terminal
 
 
 # Steps to setup BlockOptR on a Cluster, experiment with multiple smart contracts, and generate all log files
-1. Setup [Hyperledger Lab](https://hyperledger-fabric.readthedocs.io/en/release-2.2/getting_started.html](https://github.com/MSRG/HyperLedgerLab-2.0).  
+1. Setup [Hyperledger Lab](https://github.com/MSRG/HyperLedgerLab-2.0).  
 2. Clone BlockOptR to a fabric client instance 
 3. Replace the [connectionProfile](log_extraction/connectionprofile.yaml) with [hll_connectionProfile](log_extraction/hll_connectionprofile.yaml) to match the HyperledgerLab Fabric network
 4. Execute ./scripts/full_script.sh <chaincode_name> <experiment_number>
