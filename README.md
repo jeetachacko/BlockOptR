@@ -43,19 +43,19 @@ Run BlockOptR - Optimization recommendations will be printed on the terminal
 
 
 
-# Steps to execute BlockOptR on a Cluster, experiment with multiple smart contracts and generate all log files
-1. [Setup Hyperledger Lab]([https://hyperledger-fabric.readthedocs.io/en/release-2.2/getting_started.html](https://github.com/MSRG/HyperLedgerLab-2.0)).  
+# Steps to setup BlockOptR on a Cluster, experiment with multiple smart contracts, and generate all log files
+1. Setup [Hyperledger Lab](https://hyperledger-fabric.readthedocs.io/en/release-2.2/getting_started.html](https://github.com/MSRG/HyperLedgerLab-2.0).  
 2. Clone BlockOptR to a fabric client instance 
 3. Replace the [connectionProfile](log_extraction/connectionprofile.yaml) with [hll_connectionProfile](log_extraction/hll_connectionprofile.yaml) to match the HyperledgerLab Fabric network
 4. Execute ./scripts/full_script.sh <chaincode_name> <experiment_number>
 
-# What happens in the full script:
+What happens in the full script:
 1. A new client is registered to Fabric and it extracts the full blockchain : [Blockchain Extraction Script](log_extraction/getBlockchainLogs.js)
 2. Attributes are extracted/derived and a clean log is created in csv format : [Data Preprocessing Script](convert_to_csv/convert_blockchain_logs_to_csv.py)
 3. CaseIDs and event log is generated : [CaseID/EventLog Generation Script](caseid_generation/caseid_generation.py) NOTE: Edit this script for new use-cases
 4. Blockchain-specific metrics and optimization recommendations are derived : [Metrics/Recommendation Generation Script](metrics_evaluation/metrics_evaluation.py)
 
-# Additional details
+Additional details
 1. [Blockchain Extraction Script](log_extraction/getBlockchainLogs.js)  
     + **Input:** [connectionProfile](log_extraction/connectionprofile.yaml)
     + **Output:** log_extraction/data/\<multiple json files\>
