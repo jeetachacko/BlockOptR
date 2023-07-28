@@ -2,7 +2,7 @@
 An optimization recommender tool for blockchains (Hyperledger Fabric). This repository contains the research artifacts for this [SIGMOD paper](https://dl.acm.org/doi/abs/10.1145/3588704). It contains the BlockOptR source code (see description below), [smart contracts](chaincodes), [workload generation scripts](workloads), [event logs](event_logs), and [experimental results](results). The complete results for experiments with the synthetic workloads can be found [here](results/SyntheticWorkloads_CompleteResults.pdf).
 
 # Quick Setup 
-Execute the following steps on a clean Ubuntu machine. The following scripts will set up a sample Hyperledger Fabric network and the Caliper benchmarking system on a single Ubuntu machine. A smart contract for a supply chain management scenario is installed on the blockchain, and a corresponding workload is executed. Then the BlockOptR tool is executed, which generates a list of optimization recommendations.
+Execute the following steps on a clean Ubuntu machine. The following scripts will set up a sample Hyperledger Fabric network and the Caliper benchmarking system on a single machine. A smart contract for a supply chain management scenario is installed on the blockchain, and a corresponding workload is executed. Then the BlockOptR tool is executed, which generates a list of optimization recommendations.
 
 Clone this repository to the home directory
 ```shell
@@ -43,10 +43,10 @@ Run BlockOptR - Optimization recommendations will be printed on the terminal
 
 
 
-# Steps to execute BlockOptR on a CLuster
-1. [Setup Hyperledger Fabric](https://hyperledger-fabric.readthedocs.io/en/release-2.2/getting_started.html).  
+# Steps to execute BlockOptR on a Cluster, experiment with multiple smart contracts and generate all log files
+1. [Setup Hyperledger Lab]([https://hyperledger-fabric.readthedocs.io/en/release-2.2/getting_started.html](https://github.com/MSRG/HyperLedgerLab-2.0)).  
 2. Clone BlockOptR to a fabric client instance 
-3. Edit the [connectionProfile](log_extraction/connectionprofile.yaml) to match the Fabric network
+3. Replace the [connectionProfile](log_extraction/connectionprofile.yaml) with [hll_connectionProfile](log_extraction/hll_connectionprofile.yaml) to match the HyperledgerLab Fabric network
 4. Execute ./scripts/full_script.sh <chaincode_name> <experiment_number>
 
 # What happens in the full script:
