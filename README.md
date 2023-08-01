@@ -16,7 +16,7 @@ Install prerequisites
 ```shell
 echo -ne '\n' | ./scripts/prerequisites1.sh
 ```
-This script expects the entry of a password three times (any new password) - The script allows the use of without sudo
+This next script expects the entry of a password three times (any new password) - The script allows the use of Docker without sudo
 ```shell
 ./scripts/docker_setup.sh
 ```
