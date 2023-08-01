@@ -1,49 +1,50 @@
 # BlockOptR
-An optimization recommender tool for blockchains (Hyperledger Fabric). This repository contains the research artifacts for this [SIGMOD paper](https://dl.acm.org/doi/abs/10.1145/3588704). It contains the BlockOptR source code (see description below), [smart contracts](chaincodes), [workload generation scripts](workloads), [event logs](event_logs), and [experimental results](results). The complete results for experiments with the synthetic workloads can be found [here](results/SyntheticWorkloads_CompleteResults.pdf).
+An optimization recommender tool for blockchains (Hyperledger Fabric). This repository contains the research artifacts for this [SIGMOD 2023 paper](https://dl.acm.org/doi/abs/10.1145/3588704). It contains the BlockOptR source code (see description below), [smart contracts](chaincodes), [workload generation scripts](workloads), [event logs](event_logs), and [experimental results](results). The complete results for experiments with the synthetic workloads can be found [here](results/SyntheticWorkloads_CompleteResults.pdf).
 
 # Quick Setup 
-Execute the following steps on a clean Ubuntu machine. The following scripts will set up a sample Hyperledger Fabric network and the Caliper benchmarking system on a single machine. A smart contract for a supply chain management scenario is installed on the blockchain, and a corresponding workload is executed. Then the BlockOptR tool is executed, which generates a list of optimization recommendations.
+**This section is created for submission to the SIGMOD 2023 ARI and demonstrates that the artifacts are available and functional.** These scripts help users quickly set up a blockchain network, generate workloads, and test BlockOptR. It will set up a sample Hyperledger Fabric network and the Caliper benchmarking system on a single machine. A smart contract for a supply chain management scenario is installed on the blockchain, and a corresponding workload is executed. Then the BlockOptR tool is executed, which generates a list of optimization recommendations. Execute the following steps on a clean Ubuntu machine.
 
-Clone this repository to the home directory
+1. Clone this repository to the home directory
 ```shell
 git clone git@github.com:jeetachacko/BlockOptR.git
 ```
-Execute all the scripts from the BlockOptR folder
+2. Execute all the scripts from the BlockOptR folder
 ```shell
 cd ~/BlockOptR
 ```
-Install prerequisites
+3. Install prerequisites
 ```shell
 echo -ne '\n' | ./scripts/prerequisites1.sh
 ```
-This next script expects the entry of a password three times (any new password) - The script allows the use of Docker without sudo
+4. This script expects the entry of a password three times (any new password) - The script allows the use of Docker without sudo
 ```shell
 ./scripts/docker_setup.sh
 ```
-Execute all the scripts from the BlockOptR folder
+5. Execute all the scripts from the BlockOptR folder
 ```shell
 cd ~/BlockOptR
 ```
-Install further prerequisites
+6. Install further prerequisites
 ```shell
 ./scripts/prerequisites2.sh
 ```
-Setup the fabric network
+7. Setup the fabric network
 ```shell
 ./scripts/fabric_setup.sh simplesupplychain go
 ```
-Setup the caliper benchmarking system and execute the workloads
+8. Setup the caliper benchmarking system and execute the workloads
 ```shell
 ./scripts/caliper_setup.sh simplesupplychain go
 ```
-Run BlockOptR - Optimization recommendations will be printed on the terminal
+9. Run BlockOptR - Optimization recommendations will be printed on the terminal
 ```shell
 ./scripts/blockoptr_run.sh
 ```
 
 
 
-# Steps to setup BlockOptR on a Cluster, experiment with multiple smart contracts, and generate all log files
+# BlockOptR on a Cluster
+The following steps can set up Hyperledger Fabric and Caliper benchmarking system on an OpenStack cluster. BLockOptR is then set up with a more extensive log collection.
 1. Setup [Hyperledger Lab](https://github.com/MSRG/HyperLedgerLab-2.0).  
 2. Clone BlockOptR to a fabric client instance 
 3. Replace the [connectionProfile](log_extraction/connectionprofile.yaml) with [hll_connectionProfile](log_extraction/hll_connectionprofile.yaml) to match the HyperledgerLab Fabric network
