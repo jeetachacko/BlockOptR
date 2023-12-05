@@ -29,7 +29,8 @@ yes Y | sudo apt-get install build-essential openssl libssl-dev pkg-config
 
 yes Y | sudo apt-get install jq
 
-yes Y | sudo apt install python3-pip
+#yes Y | sudo apt install python3-pip
+sudo apt install python3-pip
 pip3 install numpy
 pip3 install arrow
 
@@ -44,8 +45,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-nvm install v18.16.0
-nvm use v18.16.0
+#nvm install v18.16.0
+#nvm use v18.16.0
+nvm install v14.21.3
+nvm use v14.21.3
 
 mkdir log_extraction/data
 
