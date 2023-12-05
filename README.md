@@ -24,7 +24,7 @@ echo -ne '\n' | ./scripts/prerequisites1.sh
 ```shell
 cd ~/BlockOptR
 ```
-6. Install further prerequisites
+6. Install further prerequisites. Enter 'Y' when requested. Node dependency errors and warnings can be ignored.
 ```shell
 ./scripts/prerequisites2.sh
 ```
@@ -32,7 +32,7 @@ cd ~/BlockOptR
 ```shell
 ./scripts/fabric_setup.sh simplesupplychain go
 ```
-8. Setup the caliper benchmarking system and execute the workloads
+8. Setup the caliper benchmarking system and execute the workloads. Rerun this script if transactions remain unfinished. "MVCC_READ_CONFLICT", "PHANTOM_READ_CONFLICT" and "Peer endorsements do not match" errors are expected.
 ```shell
 ./scripts/caliper_setup.sh simplesupplychain go
 ```
