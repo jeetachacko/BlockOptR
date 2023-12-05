@@ -6,7 +6,7 @@ An optimization recommender tool for blockchains (Hyperledger Fabric). This repo
 
 1. Clone this repository to the home directory
 ```shell
-git clone git@github.com:jeetachacko/BlockOptR.git
+git clone https://github.com/jeetachacko/BlockOptR.git
 ```
 2. Execute all the scripts from the BlockOptR folder
 ```shell
