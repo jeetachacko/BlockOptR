@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 rm -rf log_store
+rm -rf /tmp/hfc-*
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
