@@ -7,18 +7,26 @@ fi
 
 CHAINCODE_NAME="$1"
 
+sed -i "10s/.*/    - id: $CHAINCODE_NAME/" /home/ubuntu/BlockOptR/networks/networkConfig.yaml
+
+
 PROGRAMMING_LANGUAGE="$2"
 
-if [ ! -d  chaincodes/$CHAINCODE_NAME ] ; then
-    echo "ERROR: Invalid chaincode folder name"
-    exit 0
-fi
+CHAINCODE_FOLDER="chaincodes/$CHAINCODE_NAME/$PROGRAMMING_LANGUAGE"
 
 SUFFIX=""
 
 if [ "$2" == "javascript" ] ; then
     SUFFIX="/node"
+    CHAINCODE_FOLDER="chaincodes/$CHAINCODE_NAME/node"
+    #CHAINCODE_NAME=$1$SUFFIX
 fi
+
+if [ ! -d  $CHAINCODE_FOLDER ] ; then
+    echo "ERROR: Invalid chaincode folder name"
+    exit 0
+fi
+
 
 set -x
 
@@ -28,7 +36,7 @@ source ~/.profile
 cd ./fabric-samples/test-network
 ./network.sh down
 ./network.sh up createChannel -c mychannel -ca #-s couchdb
-./network.sh deployCC -ccn $CHAINCODE_NAME -ccp ~/BlockOptR/chaincodes/$CHAINCODE_NAME$SUFFIX/$PROGRAMMING_LANGUAGE -ccl $PROGRAMMING_LANGUAGE
+./network.sh deployCC -ccn $CHAINCODE_NAME -ccp ~/BlockOptR/$CHAINCODE_FOLDER -ccl $PROGRAMMING_LANGUAGE
 
 sleep 10s
 
