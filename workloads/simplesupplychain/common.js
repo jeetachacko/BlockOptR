@@ -143,7 +143,7 @@ class CreateWorkload extends WorkloadModuleBase {
                 {contractId : 'simplesupplychain', contractFunction: 'QueryASN', contractArguments: [workertxcount.toString()], readOnly: false, timeout: 120},
                 {contractId : 'simplesupplychain', contractFunction: 'Unload', contractArguments: [workertxcount.toString()], readOnly: false, timeout: 120},
                 {contractId : 'simplesupplychain', contractFunction: 'UpdateAuditInfo', contractArguments: [(workertxcount - 2).toString(), auditkey.toString()], readOnly: false, timeout: 120}, 
-		{contractId : 'simplesupplychain', contractFunction: 'QueryProducts', contractArguments: [startkey.toString(), endkey.toString()], readOnly: false, timeout: 120}
+				{contractId : 'simplesupplychain', contractFunction: 'QueryProducts', contractArguments: [startkey.toString(), endkey.toString()], readOnly: false, timeout: 120}
         ];
 
 
