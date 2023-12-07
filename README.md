@@ -4,7 +4,7 @@ An optimization recommender tool for blockchains (Hyperledger Fabric). This repo
 # Quick Setup 
 **This section is created for submission to the SIGMOD 2023 ARI and demonstrates that the artifacts are available and functional.** These scripts help users quickly set up a blockchain network, generate workloads, and test BlockOptR. It will set up a sample Hyperledger Fabric network and the Caliper benchmarking system on a single machine. A smart contract for a supply chain management scenario is installed on the blockchain, and a corresponding workload is executed. Then the BlockOptR tool is executed, which generates a list of optimization recommendations. Execute the following steps on a clean Ubuntu machine. These scripts were tested on Ubuntu 20.04 LTS and Ubuntu 22.04 LTS machines with 2vCPUS, 10GB memory and 10GB storage.
 
-1. Clone this repository to the home directory
+1. Clone this repository to the home directory (/home/ubuntu). Make sure the path is the same.
 ```shell
 git clone https://github.com/jeetachacko/BlockOptR.git
 ```
