@@ -38,8 +38,8 @@ class vote {
                 contractVersion: 'v1',
                 contractFunction: 'vote',
                 contractArguments: [ballotId, electionId, partyId],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

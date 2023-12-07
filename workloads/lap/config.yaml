@@ -11,5 +11,5 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/common.js
+        module: ./workloads/lap/common.js
 

@@ -10,7 +10,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/initLedger.js
+        module: ./workloads/electronic-health-record/initLedger.js
 
     - label: common
       txNumber: 5000
@@ -19,7 +19,7 @@ test:
           opts:
             tps: 100
       workload:
-        module: /caliper-workload/common2.js
+        module: ./workloads/electronic-health-record/common2.js
 
     - label: common
       txNumber: 5000
@@ -28,5 +28,5 @@ test:
           opts:
             tps: 100
       workload:
-        module: /caliper-workload/common1.js
+        module: ./workloads/electronic-health-record/common1.js
 

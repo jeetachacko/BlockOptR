@@ -10,7 +10,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/InitLedger.js
+        module: ./workloads/reorderedsimplesupplychain/InitLedger.js
 
     - label: common
       txNumber: 10000
@@ -19,4 +19,4 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/common.js
+        module: ./workloads/reorderedsimplesupplychain/common.js

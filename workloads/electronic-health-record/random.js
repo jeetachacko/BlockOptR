@@ -34,13 +34,14 @@ class Random {
 
     }
     static getClient() {
-	let clientDist = getParameters.clientDist();
-	let clientorgDist = getParameters.clientorgDist(); 
-	let nclients = getParameters.getNClients();
-	let norgs = getParameters.getNOrgs();
-	const clientindex = zipfian(0, nclients-1, clientDist);
-	const orgindex = zipfian(1, norgs-1, clientorgDist);
-	let client =  'client' + clientindex() + '.org' + orgindex() + '.example.com' 
+	//let clientDist = getParameters.clientDist();
+	//let clientorgDist = getParameters.clientorgDist(); 
+	//let nclients = getParameters.getNClients();
+	//let norgs = getParameters.getNOrgs();
+	//const clientindex = zipfian(0, nclients-1, clientDist);
+	//const orgindex = zipfian(1, norgs-1, clientorgDist);
+	//let client =  'client' + clientindex() + '.org' + orgindex() + '.example.com' 
+	let client =  'User1@org1.example.com' 
 	return client;
     }
     static getEndorsers() {

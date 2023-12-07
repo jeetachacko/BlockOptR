@@ -36,8 +36,8 @@ class ship {
                 contractVersion: 'v1',
                 contractFunction: 'ship',
                 contractArguments: [ssccKey, newLSPNameString, newLSPGlnString],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

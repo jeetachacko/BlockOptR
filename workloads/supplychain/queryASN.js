@@ -23,8 +23,8 @@ class queryASN {
                 contractVersion: 'v1',
                 contractFunction: 'queryASN',
                 contractArguments: [lspName],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

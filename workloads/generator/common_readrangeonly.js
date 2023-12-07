@@ -49,8 +49,8 @@ class CreateCarWorkload extends WorkloadModuleBase {
                 contractVersion: 'v1',
                 contractFunction: contractFunction,
                 contractArguments: [quotedAndCommaSeparated],
-		targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+		 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: '30' }
         
 

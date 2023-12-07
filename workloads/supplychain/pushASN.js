@@ -35,8 +35,8 @@ class pushASN {
                 contractVersion: 'v1',
                 contractFunction: 'pushASN',
                 contractArguments: [ssccKey, lspName, dateString],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

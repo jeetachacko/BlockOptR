@@ -29,8 +29,8 @@ class calcRevenue {
                 contractVersion: 'v1',
                 contractFunction: 'calcRevenue',
                 contractArguments: [ipiName],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 500
             };
 

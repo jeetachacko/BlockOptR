@@ -66,7 +66,7 @@ class Common extends WorkloadModuleBase {
 	if(numargs >= 5){
 
 		args = {
-			contractId: 'lapnew',
+			contractId: 'lap',
             		contractVersion: 'v1',
             		contractFunction: tempargs[0].trim(),
             		contractArguments: [tempargs[1].trim(), tempargs[2].trim(), tempargs[3].trim(), tempargs[4].trim(), tempargs[5].trim()]
@@ -74,7 +74,7 @@ class Common extends WorkloadModuleBase {
 	}
 	else if(numargs >= 3){
 		args = {
-                        contractId: 'lapnew',
+                        contractId: 'lap',
                         contractVersion: 'v1',
                         contractFunction: tempargs[0].trim(),
                         contractArguments: [tempargs[1].trim(), tempargs[2].trim(), tempargs[3].trim()]
@@ -83,7 +83,7 @@ class Common extends WorkloadModuleBase {
 	}
 	else {
 		args = {
-                        contractId: 'lapnew',
+                        contractId: 'lap',
                         contractVersion: 'v1',
                         contractFunction: tempargs[0].trim(),
                         contractArguments: [tempargs[1].trim(), tempargs[2].trim()]

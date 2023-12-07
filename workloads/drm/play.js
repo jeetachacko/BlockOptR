@@ -31,8 +31,8 @@ class play {
                 contractVersion: 'v1',
                 contractFunction: 'play',
                 contractArguments: [artworkId],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

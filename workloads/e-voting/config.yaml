@@ -12,7 +12,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/initLedger.js
+        module: ./workloads/e-voting/initLedger.js
 
     - label: delay
       txDuration: 20
@@ -21,7 +21,7 @@ test:
           opts:
             tps:
       workload:
-        module: /caliper-workload/common1.js
+        module: ./workloads/e-voting/common1.js
 
     - label: common
       txNumber: 100
@@ -30,7 +30,7 @@ test:
           opts:
             tps: 10
       workload:
-        module: /caliper-workload/common1.js
+        module: ./workloads/e-voting/common1.js
 
     - label: delay
       txDuration: 20
@@ -39,7 +39,7 @@ test:
           opts:
             tps:
       workload:
-        module: /caliper-workload/common1.js
+        module: ./workloads/e-voting/common1.js
 
     - label: common
       txNumber: 1000
@@ -48,7 +48,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/common2.js
+        module: ./workloads/e-voting/common2.js
 
     - label: delay
       txDuration: 120
@@ -57,7 +57,7 @@ test:
           opts:
             tps:
       workload:
-        module: /caliper-workload/common1.js
+        module: ./workloads/e-voting/common1.js
 
     - label: closeElection 
       txNumber: 1
@@ -66,7 +66,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/closeElection.js
+        module: ./workloads/e-voting/closeElection.js
     
     - label: seeResults
       txNumber: 1
@@ -75,4 +75,4 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/seeResults.js
+        module: ./workloads/e-voting/seeResults.js

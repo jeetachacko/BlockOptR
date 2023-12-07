@@ -46,8 +46,8 @@ class viewPartialProfile {
                 contractVersion: 'v1',
                 contractFunction: 'viewPartialProfile',
                 contractArguments: [ssn, `${actor}`],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

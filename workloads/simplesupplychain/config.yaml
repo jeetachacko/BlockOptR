@@ -17,6 +17,6 @@ test:
       rateControl:
           type: fixed-rate
           opts:
-            tps: 100
+            tps: 500
       workload:
         module: ./workloads/simplesupplychain/common.js

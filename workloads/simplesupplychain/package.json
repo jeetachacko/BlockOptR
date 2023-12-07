@@ -3,12 +3,10 @@
         "version": "1.0.0",
         "description": "Simple Supply Chain workloads",
         "dependencies": {
-        "deck": "0.0.4",
-        "random": "4.1.0",
-        "zipfian-integer": "1.0.1",
-        "random-picker": "1.0.0",
-        "unirand": "2.4.5"
-
+                "deck": "0.0.4",
+                "random": "4.1.0",
+                "zipfian-integer": "1.0.1",
+                "random-picker": "1.0.0",
+                "unirand": "2.4.5"
         }
 }
-

@@ -10,7 +10,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/initLedger.js
+        module: ./workloads/supplychain/initLedger.js
 
     - label: common
       txNumber: 1820
@@ -19,7 +19,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/new_common_oneread1.js
+        module: ./workloads/supplychain/new_common_oneread1.js
 
     - label: common
       txNumber: 1820
@@ -28,7 +28,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/new_common_oneread2.js
+        module: ./workloads/supplychain/new_common_oneread2.js
 
     - label: common
       txNumber: 1820
@@ -37,7 +37,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/new_common_oneread3.js
+        module: ./workloads/supplychain/new_common_oneread3.js
 
     - label: common
       txNumber: 1820
@@ -46,7 +46,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/new_common_oneread4.js
+        module: ./workloads/supplychain/new_common_oneread4.js
 
     - label: common
       txNumber: 720
@@ -55,6 +55,6 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/new_common_oneread.js
+        module: ./workloads/supplychain/new_common_oneread.js
 
 

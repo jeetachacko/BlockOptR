@@ -27,8 +27,8 @@ class unload {
                 contractVersion: 'v1',
                 contractFunction: 'unload',
                 contractArguments: [ssccKey],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

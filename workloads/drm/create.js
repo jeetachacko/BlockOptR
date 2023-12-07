@@ -37,8 +37,8 @@ class create {
                 contractVersion: 'v1',
                 contractFunction: 'create',
                 contractArguments: [artworkId, artwork, royaltyManagementId, royaltyManagement],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

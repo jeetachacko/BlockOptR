@@ -31,8 +31,8 @@ class viewMetaData {
                 contractVersion: 'v1',
                 contractFunction: 'viewMetaData',
                 contractArguments: [artworkId],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

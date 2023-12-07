@@ -11,7 +11,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/initLedger.js
+        module: ./workloads/drm_splitdw/initLedger.js
 
     - label: common
       txNumber: 8500
@@ -20,7 +20,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/common1.js
+        module: ./workloads/drm_splitdw/common1.js
 
 #    - label: common
 #      txDuration: 30
@@ -29,7 +29,7 @@ test:
 #          opts:
 #            tps: 
 #      workload:
-#        module: /caliper-workload/common.js
+#        module: ./workloads/drm_splitdw/common.js
         #
         #    - label: common
         #      txNumber: 10
@@ -38,7 +38,7 @@ test:
         #          opts:
         #            tps: 10
         #      workload:
-        #        module: /caliper-workload/commontest1.js
+        #        module: ./workloads/drm_splitdw/commontest1.js
 
     - label: common
       txNumber: 1500
@@ -47,5 +47,5 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/common2.js
+        module: ./workloads/drm_splitdw/common2.js
 

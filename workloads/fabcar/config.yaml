@@ -10,4 +10,4 @@ test:
           tps: 1400
           # transactionLoad: 2000
       workload:
-        module: /caliper-workload/createCar.js
+        module: ./workloads/fabcar/createCar.js

@@ -22,8 +22,8 @@ class singleQuery {
                 contractVersion: 'v1',
                 contractFunction: 'queryLogisticUnit',
                 contractArguments: [ssccKey],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

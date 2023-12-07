@@ -50,8 +50,8 @@ class CreateCarWorkload extends WorkloadModuleBase {
                 contractVersion: 'v1',
                 contractFunction: 'closeElection',
                 contractArguments: [electionId],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

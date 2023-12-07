@@ -47,15 +47,15 @@ class getParameters {
 
 	//TODO: Get NClients, NEndorsers, NOrgs from config file
    static getNClients() {
-	let NClients = 5;
+	let NClients = 1;
 	return NClients;
    }
    static getNEndorsers() {
-        let NEndorsers = 2;
+        let NEndorsers = 1;
 	return NEndorsers;
    }
    static gettotalNEndorsers() {
-        let tNEndorsers = 2;
+        let tNEndorsers = 1;
         return tNEndorsers;
    }
 

@@ -33,8 +33,8 @@ class queryParties {
                 contractVersion: 'v1',
                 contractFunction: 'queryParties',
                 contractArguments: [electionId],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

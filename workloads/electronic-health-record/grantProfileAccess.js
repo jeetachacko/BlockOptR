@@ -49,8 +49,8 @@ class grantProfileAccess {
                 contractVersion: 'v1',
                 contractFunction: 'grantProfileAccess',
                 contractArguments: [ssn, key, `${actor}`],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

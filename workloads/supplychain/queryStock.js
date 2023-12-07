@@ -25,8 +25,8 @@ class queryStock {
                 contractVersion: 'v1',
                 contractFunction: 'queryStock',
                 contractArguments: [lspName],
-                targetOrganizations: targetOrg,
-                invokerIdentity: invkIdent,
+                 // targetOrganizations: targetOrg,
+                // invokerIdentity: invkIdent,
                 timeout: 30
             };
 

@@ -11,7 +11,7 @@ test:
           opts:
             tps: 100
       workload:
-        module: /caliper-workload/initLedger.js
+        module: ./workloads/generator/initLedger.js
 
     - label: common
       txNumber: 5000
@@ -30,7 +30,7 @@ test:
                 opts:
                   tps: 100
       workload:
-        module: /caliper-workload/common.js
+        module: ./workloads/generator/common.js
 
     - label: common
       txNumber: 5000
@@ -49,5 +49,5 @@ test:
                 opts:
                   tps: 500
       workload:
-        module: /caliper-workload/common.js
+        module: ./workloads/generator/common.js
 

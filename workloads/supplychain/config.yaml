@@ -10,7 +10,7 @@ test:
           opts:
             tps: 1
       workload:
-        module: /caliper-workload/initLedger.js
+        module: ./workloads/supplychain/initLedger.js
 
     - label: common
       txNumber: 2000
@@ -19,7 +19,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/testcommon1.js
+        module: ./workloads/supplychain/testcommon1.js
 
     - label: common
       txNumber: 2000
@@ -28,7 +28,7 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/testcommon2.js
+        module: ./workloads/supplychain/testcommon2.js
 
     - label: common
       txNumber: 2000
@@ -37,7 +37,7 @@ test:
           opts:
             tps: 100
       workload:
-        module: /caliper-workload/testcommon3.js
+        module: ./workloads/supplychain/testcommon3.js
 
     - label: common
       txNumber: 2000
@@ -46,5 +46,5 @@ test:
           opts:
             tps: 300
       workload:
-        module: /caliper-workload/testcommon4.js
+        module: ./workloads/supplychain/testcommon4.js
 
