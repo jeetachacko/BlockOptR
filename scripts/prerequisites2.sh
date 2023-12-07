@@ -10,7 +10,7 @@ docker-compose --version
 
 #Install Go
 
-curl -O https://storage.googleapis.com/golang/go1.19.linux-amd64.tar.gz
+curl -k -O https://storage.googleapis.com/golang/go1.19.linux-amd64.tar.gz
 sha256sum go1.19.linux-amd64.tar.gz
 tar -xvf go1.19.linux-amd64.tar.gz
 sudo mv go /usr/local
