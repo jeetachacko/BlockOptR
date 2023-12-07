@@ -1,5 +1,7 @@
 sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
+export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist
+
 sudo apt update
 
 #Install docker compose
@@ -53,7 +55,11 @@ nvm use v14.21.3
 mkdir log_extraction/data
 
 #install fabric samples
-curl -sSL https://bit.ly/2ysbOFE | bash -s
+#curl -sSL https://bit.ly/2ysbOFE | bash -s
+
+curl -k -O https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh && chmod +x install-fabric.sh
+
+./install-fabric.sh
 
 npm i fabric-client
 
