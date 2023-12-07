@@ -45,14 +45,26 @@ cd ~/BlockOptR
 1. To change the smart contract, run steps 7, 8 and 9 with the new smart contract name and programming language name (shown below). The quick setup works with the following two smart contracts also. The workload for each of these smart contracts can also be changed as mentioned before.
 
 Electronic Health Records:
+```shell
 ./scripts/fabric_setup.sh electronic-health-record javascript
+```
+```shell
 ./scripts/caliper_setup.sh electronic-health-record javascript
+```
+```shell
 ./scripts/blockoptr_run.sh
+```
 
 E-Voting:
+```shell
 ./scripts/fabric_setup.sh e-voting javascript
+```
+```shell
 ./scripts/caliper_setup.sh e-voting javascript
+```
+```shell
 ./scripts/blockoptr_run.sh
+```
 
 # BlockOptR on a Cluster
 The following steps can set up Hyperledger Fabric and Caliper benchmarking system on an OpenStack cluster. BLockOptR is then set up with a more extensive log collection.
