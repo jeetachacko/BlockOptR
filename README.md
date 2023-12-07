@@ -41,8 +41,8 @@ cd ~/BlockOptR
 ./scripts/blockoptr_run.sh
 ```
 # Quick Setup - Further test cases
-To change the workload, edit the "txNumber" (line 16) or "tps" (line 20) parameters in the file "workloads/simplesupplychain/config.yaml" for the label "common"
-To change the smart contract, run steps 7, 8 and 9 with the new smart contract name and programming language name (shown below). The quick setup works with the following two smart contracts also. The workload for each of these smart contracts can also be changed as mentioned before.
+1. To change the workload, edit the "txNumber" (line 16) or "tps" (line 20) parameters in the file "workloads/simplesupplychain/config.yaml" for the label "common"
+1. To change the smart contract, run steps 7, 8 and 9 with the new smart contract name and programming language name (shown below). The quick setup works with the following two smart contracts also. The workload for each of these smart contracts can also be changed as mentioned before.
 
 Electronic Health Records:
 ./scripts/fabric_setup.sh electronic-health-record javascript
