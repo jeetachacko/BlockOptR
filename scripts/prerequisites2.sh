@@ -37,7 +37,7 @@ pip3 install arrow
 
 #Install nvm
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+curl -k -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 source ~/.bashrc
 
 export NVM_DIR="$HOME/.nvm"
